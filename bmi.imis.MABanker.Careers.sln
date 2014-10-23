@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bmi.imis.MABanker.Careers", "bmi.imis.MABanker.Careers\bmi.imis.MABanker.Careers.csproj", "{44AE5E8C-BAE0-40CC-B38D-9A3D26C2E2AF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{BF36FB90-1015-4153-9297-4A4BE501F9BB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{44AE5E8C-BAE0-40CC-B38D-9A3D26C2E2AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44AE5E8C-BAE0-40CC-B38D-9A3D26C2E2AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44AE5E8C-BAE0-40CC-B38D-9A3D26C2E2AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF36FB90-1015-4153-9297-4A4BE501F9BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF36FB90-1015-4153-9297-4A4BE501F9BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF36FB90-1015-4153-9297-4A4BE501F9BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF36FB90-1015-4153-9297-4A4BE501F9BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

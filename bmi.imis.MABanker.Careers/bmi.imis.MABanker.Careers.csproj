@@ -38,6 +38,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Asi">
+      <HintPath>ExternalReferences\Asi.dll</HintPath>
+    </Reference>
+    <Reference Include="Asi.iBO">
+      <HintPath>ExternalReferences\Asi.iBO.dll</HintPath>
+    </Reference>
     <Reference Include="Asi.Web, Version=20.1.1.4, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>ExternalReferences\Asi.Web.dll</HintPath>
@@ -68,6 +74,8 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Careers\CareerCategories.ascx" />
+    <Content Include="Careers\CareerCategories.aspx" />
     <Content Include="Careers\JobPostings.ascx" />
     <Content Include="Careers\JobPostings.aspx" />
     <Content Include="ExternalReferences\Asi.Web.dll" />
@@ -113,6 +121,20 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Careers\CareerCategories.ascx.cs">
+      <DependentUpon>CareerCategories.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Careers\CareerCategories.ascx.designer.cs">
+      <DependentUpon>CareerCategories.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Careers\CareerCategories.aspx.cs">
+      <DependentUpon>CareerCategories.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Careers\CareerCategories.aspx.designer.cs">
+      <DependentUpon>CareerCategories.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Careers\CareersBase.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -340,6 +362,10 @@
     <Compile Include="Migrations\201409231358037_SeedDataAdded6.Designer.cs">
       <DependentUpon>201409231358037_SeedDataAdded6.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201410220051466_Approved.cs" />
+    <Compile Include="Migrations\201410220051466_Approved.Designer.cs">
+      <DependentUpon>201410220051466_Approved.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CareerCategories.cs" />
     <Compile Include="Models\CareersContext.cs" />
@@ -374,6 +400,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201409231358037_SeedDataAdded6.resx">
       <DependentUpon>201409231358037_SeedDataAdded6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410220051466_Approved.resx">
+      <DependentUpon>201410220051466_Approved.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

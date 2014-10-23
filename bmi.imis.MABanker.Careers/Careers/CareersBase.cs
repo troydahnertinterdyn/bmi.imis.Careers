@@ -3,11 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using bmi.imis.MABanker.Careers.Models;
+using System.Security.Principal;
+using System.Configuration;
 
 namespace bmi.imis.MABanker.Careers.Careers
 {
-    public class CareersBase : System.Web.UI.UserControl
+    //public class CareersBase :  System.Web.UI.UserControl
+    public class CareersBase :  Asi.Web.UI.UserControl 
     {
+        public bool IsAuthenticated
+        {
+            get
+            {
+                if (bool.Parse(ConfigurationManager.AppSettings["DevelopmentMode"])) return true;
+                return (HttpContext.Current.User != null && HttpContext.Current.User.Identity != null && HttpContext.Current.User.Identity.IsAuthenticated);
+            }
+        }
+        public bool IsStaffUser {
+            get
+            {
+                if (bool.Parse(ConfigurationManager.AppSettings["DevelopmentMode"])) return true;                
+                    return (HttpContext.Current.User != null
+                    && HttpContext.Current.User.Identity != null
+                    && HttpContext.Current.User.Identity.IsAuthenticated
+                    && HttpContext.Current.User.IsInRole("staff"));
+            }
+        }
+        public void RedirectToLogin() 
+        {
+            Response.Redirect(System.Web.Security.FormsAuthentication.LoginUrl + "?returnURL=" + HttpContext.Current.Request.Url.PathAndQuery);
+        }
         private List<CareerCategory>  _categories;
         public List<CareerCategory> Categories
         {
@@ -37,6 +62,7 @@ namespace bmi.imis.MABanker.Careers.Careers
 				}
 				return _states;
 			}
-        }        
+        }
+        
     }
 }
