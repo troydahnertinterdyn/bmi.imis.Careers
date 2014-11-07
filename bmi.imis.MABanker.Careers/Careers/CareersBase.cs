@@ -8,8 +8,8 @@ using System.Configuration;
 
 namespace bmi.imis.MABanker.Careers.Careers
 {
-    //public class CareersBase :  System.Web.UI.UserControl
-    public class CareersBase :  Asi.Web.UI.UserControl 
+    public class CareersBase :  System.Web.UI.UserControl
+    //public class CareersBase :  Asi.Web.UI.UserControl 
     {
         public bool IsAuthenticated
         {
@@ -22,11 +22,10 @@ namespace bmi.imis.MABanker.Careers.Careers
         public bool IsStaffUser {
             get
             {
-                if (bool.Parse(ConfigurationManager.AppSettings["DevelopmentMode"])) return true;                
-                    return (HttpContext.Current.User != null
-                    && HttpContext.Current.User.Identity != null
-                    && HttpContext.Current.User.Identity.IsAuthenticated
-                    && HttpContext.Current.User.IsInRole("staff"));
+                if (bool.Parse(ConfigurationManager.AppSettings["DevelopmentMode"])) return true;  
+                Asi.iBO.ContentManagement.CWebUser currentUser = Asi.iBO.ContentManagement.CWebUser.LoginByPrincipal(HttpContext.Current.User);
+                if (currentUser != null && currentUser.IsInRole("Administrator"))return true;
+                else return false;
             }
         }
         public void RedirectToLogin() 

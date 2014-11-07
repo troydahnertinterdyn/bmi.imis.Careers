@@ -31,7 +31,7 @@
         </asp:TemplateField>
         <asp:TemplateField runat="server" >
             <ItemTemplate>
-                 <asp:LinkButton ID="lbtJobPosting" runat="server" Text='Edit' PostBackUrl='<%#"~/Careers/JobPosting.aspx?PostingId=" + Item.JobID %>'></asp:LinkButton>
+                 <asp:LinkButton ID="lbtJobPosting" runat="server" Text='Edit' PostBackUrl='<%#"JobPosting.aspx?PostingId=" + Item.JobID %>'></asp:LinkButton>
                     <asp:linkButton runat="server" ID="lbtDelete" Text="Delete" CommandName="Delete" Visible="<%# IsStaffUser %>"
 OnClientClick="if ( !confirm('Are you sure you want to delete this Posting?  This will not refund a credit.')) return false;"  />
             </ItemTemplate>

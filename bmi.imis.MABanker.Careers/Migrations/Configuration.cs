@@ -10,21 +10,22 @@ namespace bmi.imis.MABanker.Careers.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
             ContextKey = "bmi.imis.MABanker.Careers.Models.CareersContext";
         }
 
         protected override void Seed(bmi.imis.MABanker.Careers.Models.CareersContext context)
         {
-            var category = new CareerCategory(){Name="TestCategory"};
-            context.Categories.AddOrUpdate(x=>x.Name,category);
-            context.Postings.AddOrUpdate(x=>x.Title,
+
+            var category = new CareerCategory() { Name = "TestCategory" };
+            context.Categories.AddOrUpdate(x => x.Name, category);
+            context.Postings.AddOrUpdate(x => x.Title,
                 new Posting()
                 {
                     Title = "AssistantOfficeManager",
                     PostDate = DateTime.Now,
                     Category = category.Id,
-                    State="MN"
+                    State = "MN"
                 });
 
             context.Postings.AddOrUpdate(x => x.Title,
@@ -36,7 +37,7 @@ namespace bmi.imis.MABanker.Careers.Migrations
         State = "MN"
     });
 
-            context.States.AddOrUpdate(x=>x.Code,
+            context.States.AddOrUpdate(x => x.Code,
                 new CareerState() { Code = "AL", Name = "Alabama" },
                 new CareerState() { Code = "AK", Name = "Alaska" },
                 new CareerState() { Code = "AZ", Name = "Arizona" },
@@ -88,19 +89,7 @@ namespace bmi.imis.MABanker.Careers.Migrations
                 new CareerState() { Code = "WV", Name = "WestVirginia" },
                 new CareerState() { Code = "WI", Name = "Wisconsin" },
                 new CareerState() { Code = "WY", Name = "Wyoming" }
-			);
-			//  This method will be called after migrating to the latest version.
-
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
+            );
         }
     }
 }

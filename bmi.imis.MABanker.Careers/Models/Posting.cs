@@ -48,7 +48,7 @@ namespace bmi.imis.MABanker.Careers.Models
         public string ContactInformation { get; set; }
         public string WebSiteURL { get; set; }
         public string Comments { get; set; }
-        public DateTime PostDate { get; set; }
+        public DateTime? PostDate { get; set; }
         [Key]
         public int JobID { get; set; }
     }

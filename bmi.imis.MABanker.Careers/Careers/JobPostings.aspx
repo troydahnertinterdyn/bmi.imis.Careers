@@ -1,6 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="JobPostings.aspx.cs" Inherits="bmi.imis.MABanker.Careers.Careers.JobPostings1" %>
 
-<%@ Register Src="~/Careers/JobPostings.ascx" TagPrefix="uc1" TagName="JobPostings" %>
+<%@ Register Src="JobPostings.ascx" TagPrefix="uc1" TagName="JobPostings" %>
 
 
 <!DOCTYPE html>

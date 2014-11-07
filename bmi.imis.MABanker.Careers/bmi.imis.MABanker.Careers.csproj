@@ -48,14 +48,17 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>ExternalReferences\Asi.Web.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework">
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer">
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -76,8 +79,12 @@
   <ItemGroup>
     <Content Include="Careers\CareerCategories.ascx" />
     <Content Include="Careers\CareerCategories.aspx" />
+    <Content Include="Careers\CareersOrderSummary.ascx" />
     <Content Include="Careers\JobPostings.ascx" />
     <Content Include="Careers\JobPostings.aspx" />
+    <Content Include="Careers\Resume.aspx" />
+    <Content Include="Careers\ResumePosting.ascx" />
+    <Content Include="Careers\ResumePostings.ascx" />
     <Content Include="ExternalReferences\Asi.Web.dll" />
     <Content Include="packages.config" />
     <None Include="Web.Debug.config">
@@ -138,6 +145,13 @@
     <Compile Include="Careers\CareersBase.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Careers\CareersOrderSummary.ascx.cs">
+      <DependentUpon>CareersOrderSummary.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Careers\CareersOrderSummary.ascx.designer.cs">
+      <DependentUpon>CareersOrderSummary.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Careers\JobPosting.ascx.cs">
       <DependentUpon>JobPosting.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -158,6 +172,27 @@
     </Compile>
     <Compile Include="Careers\JobPostings.aspx.designer.cs">
       <DependentUpon>JobPostings.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Careers\Resume.aspx.cs">
+      <DependentUpon>Resume.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Careers\Resume.aspx.designer.cs">
+      <DependentUpon>Resume.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Careers\ResumePosting.ascx.cs">
+      <DependentUpon>ResumePosting.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Careers\ResumePosting.ascx.designer.cs">
+      <DependentUpon>ResumePosting.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Careers\ResumePostings.ascx.cs">
+      <DependentUpon>ResumePostings.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Careers\ResumePostings.ascx.designer.cs">
+      <DependentUpon>ResumePostings.ascx</DependentUpon>
     </Compile>
     <Compile Include="DynamicData\EntityTemplates\Default.ascx.cs">
       <DependentUpon>Default.ascx</DependentUpon>
@@ -330,79 +365,24 @@
     <Compile Include="Careers\JobPosting.aspx.designer.cs">
       <DependentUpon>JobPosting.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201409222028470_InitialCreate.cs" />
-    <Compile Include="Migrations\201409222028470_InitialCreate.Designer.cs">
-      <DependentUpon>201409222028470_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201409222054474_SeedDataAdded.cs" />
-    <Compile Include="Migrations\201409222054474_SeedDataAdded.Designer.cs">
-      <DependentUpon>201409222054474_SeedDataAdded.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201409222102085_SeedDataAdded1.cs" />
-    <Compile Include="Migrations\201409222102085_SeedDataAdded1.Designer.cs">
-      <DependentUpon>201409222102085_SeedDataAdded1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201409222126462_SeedDataAdded2.cs" />
-    <Compile Include="Migrations\201409222126462_SeedDataAdded2.Designer.cs">
-      <DependentUpon>201409222126462_SeedDataAdded2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201409222229334_SeedDataAdded3.cs" />
-    <Compile Include="Migrations\201409222229334_SeedDataAdded3.Designer.cs">
-      <DependentUpon>201409222229334_SeedDataAdded3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201409231231271_SeedDataAdded4.cs" />
-    <Compile Include="Migrations\201409231231271_SeedDataAdded4.Designer.cs">
-      <DependentUpon>201409231231271_SeedDataAdded4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201409231301510_SeedDataAdded5.cs" />
-    <Compile Include="Migrations\201409231301510_SeedDataAdded5.Designer.cs">
-      <DependentUpon>201409231301510_SeedDataAdded5.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201409231358037_SeedDataAdded6.cs" />
-    <Compile Include="Migrations\201409231358037_SeedDataAdded6.Designer.cs">
-      <DependentUpon>201409231358037_SeedDataAdded6.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201410220051466_Approved.cs" />
-    <Compile Include="Migrations\201410220051466_Approved.Designer.cs">
-      <DependentUpon>201410220051466_Approved.cs</DependentUpon>
+    <Compile Include="Migrations\201410310353463_Careers.cs" />
+    <Compile Include="Migrations\201410310353463_Careers.Designer.cs">
+      <DependentUpon>201410310353463_Careers.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CareerCategories.cs" />
     <Compile Include="Models\CareersContext.cs" />
     <Compile Include="Models\CareerStates.cs" />
     <Compile Include="Models\Posting.cs" />
+    <Compile Include="Models\Resume.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201409222028470_InitialCreate.resx">
-      <DependentUpon>201409222028470_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201409222054474_SeedDataAdded.resx">
-      <DependentUpon>201409222054474_SeedDataAdded.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201409222102085_SeedDataAdded1.resx">
-      <DependentUpon>201409222102085_SeedDataAdded1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201409222126462_SeedDataAdded2.resx">
-      <DependentUpon>201409222126462_SeedDataAdded2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201409222229334_SeedDataAdded3.resx">
-      <DependentUpon>201409222229334_SeedDataAdded3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201409231231271_SeedDataAdded4.resx">
-      <DependentUpon>201409231231271_SeedDataAdded4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201409231301510_SeedDataAdded5.resx">
-      <DependentUpon>201409231301510_SeedDataAdded5.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201409231358037_SeedDataAdded6.resx">
-      <DependentUpon>201409231358037_SeedDataAdded6.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201410220051466_Approved.resx">
-      <DependentUpon>201410220051466_Approved.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201410310353463_Careers.resx">
+      <DependentUpon>201410310353463_Careers.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

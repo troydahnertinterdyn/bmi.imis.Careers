@@ -76,7 +76,7 @@ namespace bmi.imis.MABanker.Careers.Careers
 
         protected void gvJobPostings_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-            if (!IsStaffUser && !((Posting)e.Row.DataItem).Approved) e.Row.Visible = false;
+            if (!IsStaffUser && e.Row.RowType == DataControlRowType.DataRow && !((Posting)e.Row.DataItem).Approved) e.Row.Visible = false;
         }
 
     }

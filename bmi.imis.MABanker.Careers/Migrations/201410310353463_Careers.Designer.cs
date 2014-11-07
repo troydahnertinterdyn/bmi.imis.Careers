@@ -7,13 +7,13 @@ namespace bmi.imis.MABanker.Careers.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.1-30610")]
-    public sealed partial class SeedDataAdded5 : IMigrationMetadata
+    public sealed partial class Careers : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(SeedDataAdded5));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Careers));
         
         string IMigrationMetadata.Id
         {
-            get { return "201409231301510_SeedDataAdded5"; }
+            get { return "201410310353463_Careers"; }
         }
         
         string IMigrationMetadata.Source
