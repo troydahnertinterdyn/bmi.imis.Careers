@@ -9,6 +9,8 @@ using Asi.Web.UI;
 using System.Web.ModelBinding;
 using System.Net.Mail;
 using System.Configuration;
+using Asi.Soa.ClientServices;
+using Asi.Soa.Core.DataContracts;
 
 namespace bmi.imis.MABanker.Careers.Careers
 {
@@ -21,24 +23,38 @@ namespace bmi.imis.MABanker.Careers.Careers
                 return true;
             }
         }
+        public int? PostingId { get; set; }
         protected void Page_Load(object sender, EventArgs e)
-        {            
+        {
+
+
             if (!Page.IsPostBack)
             {
-                if (!IsAuthenticated) RedirectToLogin();
-                if (Request.QueryString["PostingId"] != null && !IsStaffUser)
+                int tempPostingId;
+                if (int.TryParse(Request.QueryString["PostingId"], out tempPostingId)) PostingId = tempPostingId;
+                else PostingId = null;
+                if (PostingId == null)
                 {
-                    fvJobPosting.ChangeMode(FormViewMode.ReadOnly);
-                    fvJobPosting.DefaultMode = FormViewMode.ReadOnly;
+                    if (!IsAuthenticated ) RedirectToLogin();
+                    else
+                    {
+                        fvJobPosting.ChangeMode(FormViewMode.Edit);
+                        fvJobPosting.DefaultMode = FormViewMode.Edit;
+                    }
                 }
-                else
+                else 
                 {
-                    fvJobPosting.ChangeMode(FormViewMode.Edit);
-                    fvJobPosting.DefaultMode = FormViewMode.Edit;
+                    if ( !IsStaffUser)
+                    {
+                        fvJobPosting.ChangeMode(FormViewMode.ReadOnly);
+                        fvJobPosting.DefaultMode = FormViewMode.ReadOnly;
+                    }
+                    else
+                    {
+                        fvJobPosting.ChangeMode(FormViewMode.Edit);
+                        fvJobPosting.DefaultMode = FormViewMode.Edit;
+                    }
                 }
-                
-                //todo
-                //If  (Request.QueryString["PostingId"] == null && IsAuthenticated && no credits prompt to purchase credits)
             }
         }
         public Posting GetPosting([QueryString("PostingId")]int? postingId)
@@ -71,10 +87,23 @@ namespace bmi.imis.MABanker.Careers.Careers
         {
             using (var context = new CareersContext())
             {
-                if (posting.JobID == 0) context.Entry(posting).State = System.Data.Entity.EntityState.Added;
+                if (posting.JobID == 0 && !IsStaffUser && PostingCredits <= 0) Response.Redirect(Request.Url.AbsoluteUri);
+                bool decrementJobCredits = false;
+                var postDateString = string.Empty;
+                DateTime postDate;
+                var postDateTextbox = (TextBox)fvJobPosting.FindControl("txtPostDate");
+                if (postDateTextbox.Text != null && DateTime.TryParse(postDateTextbox.Text, out postDate)) posting.PostDate = postDate;
+                else posting.PostDate = null;
+                if (posting.JobID == 0 )
+                {
+                    context.Entry(posting).State = System.Data.Entity.EntityState.Added;
+                    if (!IsStaffUser) decrementJobCredits = true;
+                }
                 else context.Entry(posting).State = System.Data.Entity.EntityState.Modified;
                 if (posting.Approved == false) SendUnapprovedNotification(posting);
                 context.SaveChanges();
+                if (decrementJobCredits) PostingCredits = PostingCredits--;
+
             }
             Response.Redirect(Request.Url.AbsolutePath + "?PostingId=" + posting.JobID.ToString());
         }

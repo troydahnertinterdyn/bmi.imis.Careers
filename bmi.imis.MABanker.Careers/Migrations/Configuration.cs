@@ -28,14 +28,7 @@ namespace bmi.imis.MABanker.Careers.Migrations
                     State = "MN"
                 });
 
-            context.Postings.AddOrUpdate(x => x.Title,
-    new Posting()
-    {
-        Title = "AssistantOfficeManager",
-        PostDate = DateTime.Now,
-        Category = category.Id,
-        State = "MN"
-    });
+
 
             context.States.AddOrUpdate(x => x.Code,
                 new CareerState() { Code = "AL", Name = "Alabama" },

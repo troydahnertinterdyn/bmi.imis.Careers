@@ -7,18 +7,23 @@
                     </asp:DropDownList><br />
 <label>Keyword</label><asp:TextBox ID="tbKeyword" runat="server" /><br />
 <asp:Button ID="btnSearch" runat="server" OnClick="btnSearch_Click" Text="Search" />
-<asp:GridView ID="gvResumes" runat="server" ItemType="bmi.imis.MABanker.Careers.Models.Resume" DataKeyNames="ResumeID" AutoGenerateColumns="false" AllowSorting="true" SelectMethod="gvResumes_GetData" DeleteMethod="gvResumes_DeleteItem" Visible="false" OnPreRender="gvResumes_PreRender" OnDataBound="gvResumes_DataBound" >
+<asp:GridView ID="gvResumes" runat="server" ItemType="bmi.imis.MABanker.Careers.Models.Resume" DataKeyNames="ResumeID" AutoGenerateColumns="false" AllowSorting="true" SelectMethod="gvResumes_GetData" DeleteMethod="gvResumes_DeleteItem" Visible="false" >
     <Columns>
-        <asp:TemplateField HeaderText="Approved" >
+        <asp:TemplateField HeaderText="ResumeID" >
             <ItemTemplate>
-                <asp:CheckBox ID="cbApproved" runat="server" />
+                <asp:Label ID="lblResumeID" text="<%# Item.ResumeID %>" runat="server" />
+            </ItemTemplate>
+        </asp:TemplateField>
+                <asp:TemplateField HeaderText="State" >
+            <ItemTemplate>
+                <asp:Label ID="lblState" Text="<%# Item.State %>" runat="server" />
             </ItemTemplate>
         </asp:TemplateField>
                 <asp:TemplateField runat="server" >
             <ItemTemplate>
-                 <asp:LinkButton ID="lbtJResume" runat="server" Text='Edit' PostBackUrl='<%#"JobPosting.aspx?PostingId=" + Item.JobID %>'></asp:LinkButton>
+                 <asp:LinkButton ID="lbtJResume" runat="server" Text='Edit' PostBackUrl='<%# PageRootPath + "ResumePosting.aspx?ResumeId=" + Item.ResumeID %>' Visible="<%# IsStaffUser %>"></asp:LinkButton>
                     <asp:linkButton runat="server" ID="lbtDelete" Text="Delete" CommandName="Delete" Visible="<%# IsStaffUser %>"
-OnClientClick="if ( !confirm('Are you sure you want to delete this Posting?  This will not refund a credit.')) return false;"  />
+OnClientClick="if ( !confirm('Are you sure you want to delete this Resume?  This information can not be recovered.')) return false;"  />
             </ItemTemplate>
         </asp:TemplateField>
     </Columns>

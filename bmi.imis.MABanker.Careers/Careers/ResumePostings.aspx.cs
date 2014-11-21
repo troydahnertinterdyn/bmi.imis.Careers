@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace bmi.imis.MABanker.Careers.Careers
 {
-    public partial class Resume1 : System.Web.UI.Page
+    public partial class ResumePostings1 : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {

@@ -5,12 +5,40 @@ using System.Web;
 using bmi.imis.MABanker.Careers.Models;
 using System.Security.Principal;
 using System.Configuration;
+using Asi.Soa.ClientServices;
+using Asi.Soa.Core.DataContracts;
 
 namespace bmi.imis.MABanker.Careers.Careers
 {
     public class CareersBase :  System.Web.UI.UserControl
     //public class CareersBase :  Asi.Web.UI.UserControl 
     {
+        public string PageRootPath { 
+            get
+        {
+            string rootPath = HttpContext.Current.Request.ApplicationPath;
+            if (!rootPath.EndsWith("/"))
+            {
+                rootPath += "/";
+            }
+
+            Uri requestUri = HttpContext.Current.Request.Url;
+            string folderPath = requestUri.AbsolutePath.Remove(0, rootPath.Length);
+            string lastSegment = requestUri.Segments[requestUri.Segments.Length - 1];
+            folderPath = folderPath.Remove(folderPath.LastIndexOf(lastSegment));
+
+            AppRelativeTemplateSourceDirectory = "~/" + folderPath;
+            return AppRelativeTemplateSourceDirectory;
+
+        }
+        }
+        public EntityManager CareersEntityManager
+        {
+            get
+            {
+               return new EntityManager("Manager", "#37!eert");
+            }
+        }
         public bool IsAuthenticated
         {
             get
@@ -19,13 +47,98 @@ namespace bmi.imis.MABanker.Careers.Careers
                 return (HttpContext.Current.User != null && HttpContext.Current.User.Identity != null && HttpContext.Current.User.Identity.IsAuthenticated);
             }
         }
+        private int _developmentModePostingCredits = 1;
+        public int PostingCredits 
+        { 
+            get
+            {
+                if (bool.Parse(ConfigurationManager.AppSettings["DevelopmentMode"])) return _developmentModePostingCredits;
+                if (!IsAuthenticated) throw new Exception("Career Posting credits cannot be retrieved unless user is authenticated");
+                EntityManager entityManager = CareersEntityManager;
+                QueryData careerJobCreditsQuery = new QueryData("CareerJobCredits");
+                careerJobCreditsQuery.AddCriteria(CriteriaData.Equal("PartyId", CurrentiMISID));
+                FindResultsData careerJobCredits = entityManager.Find(careerJobCreditsQuery);
+                if (careerJobCredits.Result == null || careerJobCredits.Result.Count <= 0) return 0;
+                else
+                {
+                    GenericEntityData data = (GenericEntityData)careerJobCredits.Result[0];
+                    return (int)data["J_Credits"];
+                }
+            } 
+            set
+            {
+                if (bool.Parse(ConfigurationManager.AppSettings["DevelopmentMode"]))
+                {
+                    _developmentModePostingCredits = value;
+                    return;
+                }
+                if (!IsAuthenticated) throw new Exception("Career Posting credits cannot be set unless user is authenticated");
+                EntityManager entityManager = CareersEntityManager;
+                //Querying Name Table as Party Data contract
+                QueryData careerJobCreditsQuery = new QueryData("CareerJobCredits");
+                careerJobCreditsQuery.AddCriteria(CriteriaData.Equal("PartyId", CurrentiMISID));
+                FindResultsData careerJobCredits = entityManager.Find(careerJobCreditsQuery);
+                if (careerJobCredits.Result == null || careerJobCredits.Result.Count <= 0)
+                {
+                    GenericEntityData data = new GenericEntityData("CareerJobCredits")
+                    {
+                        Properties =
+                        {
+                        new GenericPropertyData("PartyId", CurrentiMISID),
+                        new GenericPropertyData("J_Credits", value)
+                        }
+                    };
+                    ValidateResultsData result = entityManager.Add(data);
+                }
+                else
+                {
+                    GenericEntityData data = (GenericEntityData)careerJobCredits.Result[0];
+                    data["J_Credits"] = value;
+                    entityManager.Update(data);
+                }
+            }
+        }
+        public string CurrentiMISID
+        {
+            get
+            {
+                string _id = "";
+                try
+                {
+                    if (IsAuthenticated && Asi.Security.AppPrincipal.CurrentIdentity.LoginIdentity != "")
+                    {
+                        _id = Asi.Security.AppPrincipal.CurrentIdentity.LoginIdentity;
+                    }
+                }
+                catch { }
+                return _id;
+            }
+        }
+        public bool HasRole(List<string> roles)
+        {
+            if (!IsAuthenticated || Asi.Security.AppPrincipal.CurrentIdentity.LoginIdentity == "") return false;
+            bool rtn =false;
+            Asi.iBO.ContentManagement.CWebUser currentUser = Asi.iBO.ContentManagement.CWebUser.LoginByPrincipal(HttpContext.Current.User);
+            foreach (var role in roles)
+	        {
+                if (currentUser != null && currentUser.IsInRole(role)) rtn = true;
+	        }
+            return rtn;
+        }
         public bool IsStaffUser {
             get
             {
-                if (bool.Parse(ConfigurationManager.AppSettings["DevelopmentMode"])) return true;  
-                Asi.iBO.ContentManagement.CWebUser currentUser = Asi.iBO.ContentManagement.CWebUser.LoginByPrincipal(HttpContext.Current.User);
-                if (currentUser != null && currentUser.IsInRole("Administrator"))return true;
-                else return false;
+                if (bool.Parse(ConfigurationManager.AppSettings["DevelopmentMode"])) return true;
+                return HasRole(new List<string>(){"sysadmin"});
+            }
+        }
+        public bool CanViewResumes
+        {
+            get
+            {
+                if (bool.Parse(ConfigurationManager.AppSettings["DevelopmentMode"])) return true;
+                var roles = new List<string>() { "IM", "ASSOC", "STAFF" };
+                return HasRole(roles);
             }
         }
         public void RedirectToLogin() 
@@ -62,6 +175,7 @@ namespace bmi.imis.MABanker.Careers.Careers
 				return _states;
 			}
         }
-        
+
+
     }
 }

@@ -38,13 +38,53 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Asi">
+    <Reference Include="Asi, Version=20.1.19.2470, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>ExternalReferences\Asi.dll</HintPath>
     </Reference>
-    <Reference Include="Asi.iBO">
+    <Reference Include="Asi.Core.Multitenant">
+      <HintPath>ExternalReferences\Asi.Core.Multitenant.dll</HintPath>
+    </Reference>
+    <Reference Include="Asi.iBO, Version=20.1.19.2470, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>ExternalReferences\Asi.iBO.dll</HintPath>
     </Reference>
-    <Reference Include="Asi.Web, Version=20.1.1.4, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Asi.Soa.ClientServices, Version=20.1.19.2470, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ExternalReferences\Asi.Soa.ClientServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Asi.Soa.Commerce.Contracts, Version=20.1.19.2470, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ExternalReferences\Asi.Soa.Commerce.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="Asi.Soa.Communications.Contracts">
+      <HintPath>ExternalReferences\Asi.Soa.Communications.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="Asi.Soa.Core, Version=20.1.19.2470, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ExternalReferences\Asi.Soa.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Asi.Soa.Core.Contracts, Version=20.1.19.2470, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ExternalReferences\Asi.Soa.Core.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="Asi.Soa.Events.Contracts, Version=20.1.19.2470, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ExternalReferences\Asi.Soa.Events.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="Asi.Soa.Fundraising.Contracts, Version=20.1.19.2470, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ExternalReferences\Asi.Soa.Fundraising.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="Asi.Soa.Membership.Contracts, Version=20.1.19.2470, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ExternalReferences\Asi.Soa.Membership.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="Asi.Soa.ServiceModelEx, Version=20.1.19.2470, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ExternalReferences\Asi.Soa.ServiceModelEx.dll</HintPath>
+    </Reference>
+    <Reference Include="Asi.Web, Version=20.1.19.2470, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>ExternalReferences\Asi.Web.dll</HintPath>
     </Reference>
@@ -57,8 +97,12 @@
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>ExternalReferences\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -77,15 +121,52 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Careers\CareerCartRewrite.ascx" />
     <Content Include="Careers\CareerCategories.ascx" />
     <Content Include="Careers\CareerCategories.aspx" />
     <Content Include="Careers\CareersOrderSummary.ascx" />
     <Content Include="Careers\JobPostings.ascx" />
     <Content Include="Careers\JobPostings.aspx" />
-    <Content Include="Careers\Resume.aspx" />
     <Content Include="Careers\ResumePosting.ascx" />
+    <Content Include="Careers\ResumePosting.aspx" />
     <Content Include="Careers\ResumePostings.ascx" />
-    <Content Include="ExternalReferences\Asi.Web.dll" />
+    <Content Include="Careers\ResumePostings.aspx" />
+    <Content Include="ExternalReferences\Asi.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExternalReferences\Asi.iBO.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExternalReferences\Asi.Soa.ClientServices.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExternalReferences\Asi.Soa.Commerce.Contracts.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExternalReferences\Asi.Soa.Core.Contracts.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExternalReferences\Asi.Soa.Core.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExternalReferences\Asi.Soa.Events.Contracts.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExternalReferences\Asi.Soa.Fundraising.Contracts.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExternalReferences\Asi.Soa.Membership.Contracts.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExternalReferences\Asi.Soa.ServiceModelEx.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExternalReferences\Asi.Web.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ExternalReferences\Newtonsoft.Json.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -121,13 +202,20 @@
     <Content Include="DynamicData\FieldTemplates\Url_Edit.ascx" />
     <Content Include="Global.asax" />
     <Content Include="Careers\JobPosting.aspx" />
-    <Content Include="Scripts\jquery-1.5.js" />
-    <Content Include="Scripts\jquery-1.5.min.js" />
-    <Content Include="Scripts\jquery.maskedinput-1.3.1.js" />
-    <Content Include="Scripts\jquery.maskedinput-1.3.1.min.js" />
+    <Content Include="Custom\Scripts\jquery-1.5.js" />
+    <Content Include="Custom\Scripts\jquery-1.5.min.js" />
+    <Content Include="Custom\Scripts\jquery.maskedinput-1.3.1.js" />
+    <Content Include="Custom\Scripts\jquery.maskedinput-1.3.1.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Careers\CareerCartRewrite.ascx.cs">
+      <DependentUpon>CareerCartRewrite.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Careers\CareerCartRewrite.ascx.designer.cs">
+      <DependentUpon>CareerCartRewrite.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Careers\CareerCategories.ascx.cs">
       <DependentUpon>CareerCategories.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -173,13 +261,6 @@
     <Compile Include="Careers\JobPostings.aspx.designer.cs">
       <DependentUpon>JobPostings.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Careers\Resume.aspx.cs">
-      <DependentUpon>Resume.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Careers\Resume.aspx.designer.cs">
-      <DependentUpon>Resume.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Careers\ResumePosting.ascx.cs">
       <DependentUpon>ResumePosting.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -187,12 +268,26 @@
     <Compile Include="Careers\ResumePosting.ascx.designer.cs">
       <DependentUpon>ResumePosting.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Careers\ResumePosting.aspx.cs">
+      <DependentUpon>ResumePosting.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Careers\ResumePosting.aspx.designer.cs">
+      <DependentUpon>ResumePosting.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Careers\ResumePostings.ascx.cs">
       <DependentUpon>ResumePostings.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Careers\ResumePostings.ascx.designer.cs">
       <DependentUpon>ResumePostings.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Careers\ResumePostings.aspx.cs">
+      <DependentUpon>ResumePostings.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Careers\ResumePostings.aspx.designer.cs">
+      <DependentUpon>ResumePostings.aspx</DependentUpon>
     </Compile>
     <Compile Include="DynamicData\EntityTemplates\Default.ascx.cs">
       <DependentUpon>Default.ascx</DependentUpon>
@@ -369,6 +464,10 @@
     <Compile Include="Migrations\201410310353463_Careers.Designer.cs">
       <DependentUpon>201410310353463_Careers.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201411100402358_AnnonymousPosting.cs" />
+    <Compile Include="Migrations\201411100402358_AnnonymousPosting.Designer.cs">
+      <DependentUpon>201411100402358_AnnonymousPosting.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CareerCategories.cs" />
     <Compile Include="Models\CareersContext.cs" />
@@ -383,6 +482,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201410310353463_Careers.resx">
       <DependentUpon>201410310353463_Careers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411100402358_AnnonymousPosting.resx">
+      <DependentUpon>201411100402358_AnnonymousPosting.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

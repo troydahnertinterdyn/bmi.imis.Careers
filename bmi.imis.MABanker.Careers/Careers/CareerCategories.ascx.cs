@@ -13,7 +13,10 @@ namespace bmi.imis.MABanker.Careers.Careers
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!Page.IsPostBack) gvCareerCategories.DataBind();
+            if (!Page.IsPostBack)
+            {
+                Page.DataBind();
+            }
         }
 
         // The return type can be changed to IEnumerable, however to support
@@ -77,6 +80,13 @@ namespace bmi.imis.MABanker.Careers.Careers
             name.Text = string.Empty;
             fvCareerCategory.Visible = true;
             btnNew.Visible = false;
+        }
+
+        // The id parameter should match the DataKeyNames value set on the control
+        // or be decorated with a value provider attribute, e.g. [QueryString]int id
+        public bmi.imis.MABanker.Careers.Models.CareerCategory fvCareerCategory_GetItem(int id)
+        {
+            return null;
         }
     }
 }

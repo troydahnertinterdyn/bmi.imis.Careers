@@ -1,7 +1,8 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="JobPostings.ascx.cs" Inherits="bmi.imis.MABanker.Careers.Careers.JobPostings" %>
 <label>Category</label><asp:DropDownList ID ="ddlCategory" DataValueField="Id" DataTextField="Name" runat="server" AutoPostBack="true" AppendDataBoundItems="true" >
     <asp:ListItem Value="" Text="Select a category..." />
-                       </asp:DropDownList><br />
+                       </asp:DropDownList>
+<br />
 <label>State</label><asp:DropDownList ID="ddlState" DataValueField="Code" DataTextField="Name" runat="server" AutoPostBack="true" AppendDataBoundItems="true">
     <asp:ListItem Text="Select a state..." Value="" />
                     </asp:DropDownList><br />
@@ -31,11 +32,11 @@
         </asp:TemplateField>
         <asp:TemplateField runat="server" >
             <ItemTemplate>
-                 <asp:LinkButton ID="lbtJobPosting" runat="server" Text='Edit' PostBackUrl='<%#"JobPosting.aspx?PostingId=" + Item.JobID %>'></asp:LinkButton>
+                 <asp:LinkButton ID="lbtJobPosting" runat="server" Text='Edit' PostBackUrl='<%# PageRootPath + "JobPosting.aspx?PostingId=" + Item.JobID %>'></asp:LinkButton>
                     <asp:linkButton runat="server" ID="lbtDelete" Text="Delete" CommandName="Delete" Visible="<%# IsStaffUser %>"
 OnClientClick="if ( !confirm('Are you sure you want to delete this Posting?  This will not refund a credit.')) return false;"  />
             </ItemTemplate>
         </asp:TemplateField>
     </Columns>
 </asp:GridView><%--  --%>
-<asp:Button ID="btnNew" runat="server" Text="New" PostBackUrl="~/Careers/JobPosting.aspx" />
+<asp:Button ID="btnNew" runat="server" Text="New" PostBackUrl="JobPosting.aspx" />

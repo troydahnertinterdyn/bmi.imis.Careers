@@ -15,23 +15,22 @@ namespace bmi.imis.MABanker.Careers.Careers
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            int tempResumeId;
+            if (int.TryParse(Request.QueryString["ResumeId"], out tempResumeId)) ResumeId = tempResumeId;
+            else ResumeId = null;
+            
             if (!Page.IsPostBack)
             {
-                if (Request.QueryString["ResumeId"] == null && !IsAuthenticated) RedirectToLogin();
-                if (IsStaffUser) fvResume.ChangeMode(FormViewMode.Edit);
+
+                if (ResumeId == null || IsStaffUser) fvResume.ChangeMode(FormViewMode.Edit);
                 else fvResume.ChangeMode(FormViewMode.ReadOnly);
-                //todo
-                //If  (Request.QueryString["PostingId"] == null && IsAuthenticated && no credits prompt to purchase credits)
             }
         }
-
+        public int? ResumeId { get; set; }
         // The id parameter should match the DataKeyNames value set on the control
         // or be decorated with a value provider attribute, e.g. [QueryString]int id
         public bmi.imis.MABanker.Careers.Models.Resume fvResume_GetItem([QueryString("ResumeId")] int? resumeId)
         {
-
-
-
             Resume rtn;
             if (resumeId == null) return new Resume();
             using (var context = new CareersContext())
@@ -58,12 +57,13 @@ namespace bmi.imis.MABanker.Careers.Careers
         public void fvResume_UpdateItem(Resume resume)
         {
 
+            var fileUploadResume = (FileUpload)fvResume.FindControl("fuResume");
             using (var context = new CareersContext())
             {
                 Resume retrievedResume;
                 retrievedResume = context.Resumes.Find(resume.ResumeID);
-                string extn = string.Empty;
-                var fileUploadResume = (FileUpload)fvResume.FindControl("fuResume");
+
+                
                 ResumeBinary resumeBinary;
                 if (resume.ResumeID != 0)
                 {
@@ -83,22 +83,12 @@ namespace bmi.imis.MABanker.Careers.Careers
 
                 if (fileUploadResume.HasFile)
                 {
-                    
-                    extn = System.IO.Path.GetExtension(fileUploadResume.FileName);
-                    //if ("gif" == extn)
-                    //{
-
-                    
-
-                    resumeBinary.ResumeBytes = fileUploadResume.FileBytes;
-                    resumeBinary.ContentType = fileUploadResume.PostedFile.ContentType;
-                    resumeBinary.FileName = fileUploadResume.PostedFile.FileName;
 
 
-                    //}
-                    //else
-                    //{
-                    //}
+                        resumeBinary.ResumeBytes = fileUploadResume.FileBytes;
+                        resumeBinary.ContentType = fileUploadResume.PostedFile.ContentType;
+                        resumeBinary.FileName = fileUploadResume.PostedFile.FileName;
+
                 }
                 else
                 {
@@ -147,11 +137,11 @@ namespace bmi.imis.MABanker.Careers.Careers
             Response.End();
         }
 
-        protected void lbFileDelete_Click(object sender, EventArgs e)
+        protected void btnFileDelete_Click(object sender, EventArgs e)
         {
             using (var context = new CareersContext())
             {
-                int id = int.Parse((sender as LinkButton).CommandArgument);
+                int id = int.Parse((sender as Button).CommandArgument);
                 var resumeBinary = (from rb in context.ResumeBinaries
                                    where rb.ResumeID == id
                                    select rb).FirstOrDefault();
@@ -161,7 +151,7 @@ namespace bmi.imis.MABanker.Careers.Careers
                     context.SaveChanges();
                     ((FileUpload)fvResume.FindControl("fuResume")).Visible = true;
                     ((LinkButton)fvResume.FindControl("lnkDownload")).Visible = false;
-                    ((LinkButton)fvResume.FindControl("lbFileDelete")).Visible = false;
+                    ((Button)fvResume.FindControl("btnFileDelete")).Visible = false;
                 }
             }
         }
@@ -169,6 +159,20 @@ namespace bmi.imis.MABanker.Careers.Careers
         protected void lbView_Click(object sender, EventArgs e)
         {
             fvResume.ChangeMode(FormViewMode.ReadOnly);
+        }
+
+        protected void lnkEdit_Click(object sender, EventArgs e)
+        {
+            fvResume.ChangeMode(FormViewMode.Edit);
+        }
+
+        protected void vafuResume_ServerValidate(object source, ServerValidateEventArgs args)
+        {
+            var fileUploadResume = (FileUpload)fvResume.FindControl("fuResume");
+            string extn = string.Empty;
+            if (!fileUploadResume.HasFile) args.IsValid = true;
+            extn = System.IO.Path.GetExtension(fileUploadResume.FileName);
+            if (".pdf" != extn && ".doc" != extn && ".docx" != extn && ".rtf" != extn) args.IsValid = false;
         }
     }
 }

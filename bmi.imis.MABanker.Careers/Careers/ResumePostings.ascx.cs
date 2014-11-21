@@ -1,5 +1,7 @@
-﻿using System;
+﻿using bmi.imis.MABanker.Careers.Models;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -22,23 +24,49 @@ namespace bmi.imis.MABanker.Careers.Careers
         //     string sortByExpression
         public IQueryable<bmi.imis.MABanker.Careers.Models.Resume> gvResumes_GetData()
         {
-            return null;
+            var context = new CareersContext();
+            IQueryable<Resume> rtn = context.Resumes;
+            var dateAfterWhichListingsExpire = DateTime.Now.AddDays(-int.Parse(ConfigurationManager.AppSettings["DaysAfterWhichListingsExpire"]));
+
+                rtn = rtn.Where(p => p.PostDate >= dateAfterWhichListingsExpire || p.PostDate == null);
+            
+
+            if (ddlCategory.SelectedIndex != 0)
+            {
+                int category = int.Parse(ddlCategory.SelectedValue);
+                rtn = rtn.Where(r => r.Category == category);
+            }
+            if (ddlState.SelectedIndex != 0) rtn = rtn.Where(r => r.State == ddlState.SelectedValue);
+            if (tbKeyword.Text != string.Empty)
+            {
+                //TODO:  Not efficient.  Unable to find faster method
+                rtn = rtn.Where(p => p.ResumeText.ToLower() == tbKeyword.Text.ToLower() ||
+                    p.City.ToLower() == tbKeyword.Text.ToLower());
+            }
+            return rtn;
         }
 
         // The id parameter name should match the DataKeyNames value set on the control
-        public void gvResumes_DeleteItem(int id)
+        public void gvResumes_DeleteItem(int resumeID)
         {
-
+            using (var context = new CareersContext())
+            {
+                var resume = (from r in context.Resumes
+                              where r.ResumeID == resumeID
+                              select r).SingleOrDefault();
+                var resumeBinary = (from r in context.ResumeBinaries
+                                    where r.ResumeID == resumeID
+                                    select r).SingleOrDefault();
+                context.Entry(resumeBinary).State = System.Data.Entity.EntityState.Deleted;
+                context.Entry(resume).State = System.Data.Entity.EntityState.Deleted;
+                context.SaveChanges();
+            }
         }
 
-        protected void gvResumes_PreRender(object sender, EventArgs e)
+        protected void btnSearch_Click(object sender, EventArgs e)
         {
-
-        }
-
-        protected void gvResumes_DataBound(object sender, EventArgs e)
-        {
-
+            gvResumes.Visible = true;
+            gvResumes.DataBind();
         }
     }
 }

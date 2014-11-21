@@ -33,24 +33,34 @@
 			height: 160px;
 		}
 </style>
-<script src="../Scripts/jquery-1.5.min.js"></script>
-<script src="../Scripts/jquery.maskedinput-1.3.1.min.js"></script>
+<script src='<%= Page.ResolveClientUrl("~/Custom/Scripts/jquery.maskedinput-1.3.1.min.js") %>'></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
-<div id="Posting">
-<asp:FormView ID="fvJobPosting" CssClass="" runat="server"  ItemType="bmi.imis.MABanker.Careers.Models.Posting"  SelectMethod="GetPosting" UpdateMethod="fvJobPosting_UpdateItem" Width="816px" >
+<div id="Posting" >
+
+<asp:FormView ID="fvJobPosting" CssClass="" runat="server" DefaultMode='<%# (IsStaffUser) ||Request.QueryString["PostingId"] == null ? FormViewMode.Edit : FormViewMode.ReadOnly %>'  ItemType="bmi.imis.MABanker.Careers.Models.Posting"  SelectMethod="GetPosting" UpdateMethod="fvJobPosting_UpdateItem" Width="816px" >
+
 	<EditItemTemplate>
-		<span class="JobPosting Container">
-            <label>Approved</label><asp:CheckBox ID="cbApproved" runat="server" Checked="<%# BindItem.Approved %>" Enabled="<%# IsStaffUser %>" />
+           <asp:ValidationSummary ID="vsJobPosting" runat="server" />
+    <asp:Panel runat="server" Visible="<%# PostingId == null && IsAuthenticated && !IsStaffUser && PostingCredits <= 0 %>">
+        You must purchase Credits before you post a job.<br />
+        <asp:Button ID="btnPurchaseCredits" Text="Purchase Credits" runat="server" PostBackUrl="~/MBRD/MB_Store/MB_Job_Credits.aspx" />
+    </asp:Panel>
+		<asp:Panel ID="pnlJobForm" runat="server"  CssClass="JobPosting Container" Visible ="<%# PostingId != null || !(PostingId == null && !IsStaffUser && PostingCredits <=0) %>">
+            <label>Approved</label><asp:CheckBox ID="cbApproved" runat="server" Checked="<%# BindItem.Approved %>" Enabled="<%# IsStaffUser %>"  />
+            <label>Post Date</label><asp:TextBox ID="txtPostDate" runat="server"  Text="<%# Item.PostDate != null ? ((DateTime)Item.PostDate).ToShortDateString() : string.Empty %>" Enabled="<%# IsStaffUser %>"  />
 					<p>
-						<label >First Name</label><asp:TextBox  runat="server" ID='txtFirstName' Text="<%# BindItem.FirstName%>" />
+						<label >First Name</label><asp:TextBox  runat="server" ValidationGroup="validation" ID='txtFirstName' Text="<%# BindItem.FirstName%>" />
+                        <asp:RequiredFieldValidator ID="rfFirstName" runat="server" ControlToValidate="txtFirstName" EnableClientScript="true" Text="First name is required"/>
 					</p>
 					<p>
 						<label>Last Name</label><asp:TextBox runat="server" ID="txtLastName" Text="<%# BindItem.LastName %>" />
 					</p>
 			<label>Job ID</label><asp:TextBox runat="server" ID="txtID" Text="<%# BindItem.JobID %>" Enabled="<%# false %>" />
+            <asp:Panel ID="pnlContactInformation" runat="server" Visible="<%# !Item.AnnonymousPost %>">
 			<label>Company</label><asp:TextBox runat="server" ID="txtCompany" Text="<%#BindItem.Company %>" />
 			<label>Work Phone</label><asp:TextBox runat="server" ID="txtWorkPhone" Text="<%#BindItem.WorkPhone %>" />
 			<label>Email</label><asp:TextBox runat="server" ID="txtEmail" Text="<%#BindItem.Email %>" />
+                </asp:Panel>
 			<label>&nbsp;</label><asp:CheckBox runat="server" ID="cbAnnonymousPost" Checked="<%# BindItem.AnnonymousPost %>" />
 			<div class="CheckboxLabel">Anonymous Post? </div>
 			<br>
@@ -66,6 +76,7 @@
 			<asp:DropDownList ID="ddCategory" runat="server" AppendDataBoundItems="true" DataSource="<%# Categories %>" DataTextField="Name" DataValueField="Id" selectedValue="<%#BindItem.Category %>"  >
 				<asp:ListItem Text="Select a Category..." Value="0" Selected="True"></asp:ListItem>
 			</asp:DropDownList>
+            <asp:HyperLink ID="hlEditCategories" runat="server" NavigateUrl='<%# PageRootPath + "CareerCategories.aspx"  %>' Visible="<%# IsStaffUser %>" text="Edit Categories"/>
 			<label>
 				Description</label>
 			<asp:TextBox TextMode="MultiLine" ID="txtDescription" runat="server" CssClass="tbMedium" Text="<%#BindItem.Description %>" />
@@ -80,16 +91,21 @@
 						
 					</asp:ListItem>
 							 </asp:DropDownList>
-		</span>
+
 		<span class="JobPosting">
-		<label>Contact Information: (Display with listing)</label>        
+		<label>Contact Information: (Display with listing)</label>   
+            <asp:Panel ID="pnlContactInformation2" runat="server" Visible="<%#!Item.AnnonymousPost %>"     >
 		<asp:TextBox ID="txtContactInformation" TextMode="MultiLine" CssClass="tbShort" runat="server" Text="<%#BindItem.ContactInformation %>" />
 		<label>Web Site URL</label><asp:TextBox ID="txtWebSiteURL" runat="server" Text="<%#BindItem.WebSiteURL %>"  />
+                </asp:Panel>
 		<label>Additional Comments</label><asp:TextBox ID="txtAdditionalComments" runat="server" TextMode="MultiLine" CssClass="tbshort" Text="<%#BindItem.Comments %>" />
-		<label>Post Date</label><asp:TextBox ID="txtPostDate" runat="server" Text="<%# Item.PostDate != null ? ((DateTime)Item.PostDate).ToShortDateString() : string.Empty %>" Enabled="<%# IsStaffUser %>"  />
-			<asp:Button Text="Save" ID="btnSave" runat="server" CommandName="Update" />    
+		<br />
+         <br />  
+            <label> <asp:Label lbl="lblRemainingCredits" Text=' <%# "You have " + PostingCredits + " Job Posting Credits Remaining." %>' runat="server" visible="<%# IsAuthenticated && !IsStaffUser && PostingId == null %>" /> </label>
+			<asp:Button Text="Save" ID="btnSave" ValidationGroup="validation" CausesValidation="true" runat="server" CommandName="Update" />    
 			<asp:Button Text="View" ID ="btnView" runat="server" Visible="<%# fvJobPosting.CurrentMode == FormViewMode.Edit %>" OnClick="btnView_Click" OnClientClick="return CheckFormDirty()" />
 			</span>
+            		</asp:Panel>
 	</EditItemTemplate>
 	<ItemTemplate>
 		<div class="row" >
@@ -133,7 +149,7 @@
                 </div>
             </div>
         </div>
-		<asp:Button ID="btnEdit" Text="Edit" runat="server" CausesValidation="false" OnClick="btnEdit_Click" Visible="<%# IsStaffUser || IsOwner %>"/>
+		<asp:Button ID="btnEdit" Text="Edit" runat="server" CausesValidation="false" OnClick="btnEdit_Click" Visible="<%# IsStaffUser  %>"/>
 	</ItemTemplate>
 </asp:FormView>
 	</div>
@@ -147,6 +163,16 @@
 </style>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <script type="text/javascript">
+    //Fills in posted date if it's not filled in when approved checkbox is checked.
+    if (<%= fvJobPosting.FindControl("cbApproved") != null ? "true" : "false" %>)
+        {
+    var chkApproved  = '#<%= fvJobPosting.FindControl("cbApproved") != null ? fvJobPosting.FindControl("cbApproved").ClientID : string.Empty %>';
+    var tbPostedDate = '#<%=fvJobPosting.FindControl("txtPostDate") != null ? fvJobPosting.FindControl("txtPostDate") .ClientID : string.Empty %>';
+    var currentDate = '<%= DateTime.Now.ToShortDateString() %>';
+    jQuery(chkApproved).click(function() {
+        if (jQuery(chkApproved).attr('checked') && jQuery(tbPostedDate).val() == '') jQuery(tbPostedDate).val(currentDate);
+    });
+    }
     //Script for attaching masks to textboxes
 	var editOrInsertMode = <%= this.fvJobPosting.CurrentMode == FormViewMode.Edit || this.fvJobPosting.CurrentMode == FormViewMode.Insert ? "true" : "false" %>;
 	var txtPostDateClientID = "#" + '<%= this.fvJobPosting.FindControl("txtPostDate") != null ? this.fvJobPosting.FindControl("txtPostDate").ClientID : string.Empty %>';
@@ -174,12 +200,12 @@
         //Script is responsible for notifying user before leaving page if changes have been made.
 		var initialdata = "nothing";
 
-		$(document).ready(function () {
-			initialdata = $('#Posting *').serialize();
+		jQuery(document).ready(function () {
+			initialdata = jQuery('#Posting *').serialize();
 		});
 
 		function CheckFormDirty() {			
-			var frmData = $('#Posting *').serialize();
+			var frmData = jQuery('#Posting *').serialize();
 
 			var continuePostback =  !(WarnIfDirty(frmData)) ;
 			return continuePostback;

@@ -10,7 +10,7 @@
 namespace bmi.imis.MABanker.Careers.Careers {
     
     
-    public partial class Resume1 {
+    public partial class ResumePosting1 {
         
         /// <summary>
         /// form1 control.
@@ -28,6 +28,6 @@ namespace bmi.imis.MABanker.Careers.Careers {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UserControl ResumePosting;
+        protected global::bmi.imis.MABanker.Careers.Careers.ResumePosting ResumePosting;
     }
 }

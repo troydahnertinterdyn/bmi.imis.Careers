@@ -11,10 +11,11 @@ namespace bmi.imis.MABanker.Careers.Models
     public class Resume
     {
         public Resume() {
-            
+            PostDate = DateTime.Now.Date;
         }
         [Key]
         public int ResumeID { get; set; }
+        public bool PostAnnonymously { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Address { get; set; }

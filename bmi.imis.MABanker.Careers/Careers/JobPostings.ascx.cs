@@ -11,8 +11,22 @@ namespace bmi.imis.MABanker.Careers.Careers
 {
     public partial class JobPostings : CareersBase
     {
-        protected void Page_Load(object sender, EventArgs e)
-        {            
+        protected void Page_Load(object sender, EventArgs e) 
+        {
+            string rootPath = HttpContext.Current.Request.ApplicationPath;
+            if (!rootPath.EndsWith("/"))
+            {
+                rootPath += "/";
+            }
+
+            Uri requestUri = HttpContext.Current.Request.Url;
+            string folderPath = requestUri.AbsolutePath.Remove(0, rootPath.Length);
+            string lastSegment = requestUri.Segments[requestUri.Segments.Length - 1];
+            folderPath = folderPath.Remove(folderPath.LastIndexOf(lastSegment));
+
+            AppRelativeTemplateSourceDirectory = "~/" + folderPath;
+
+
             if (!Page.IsPostBack)
             {
                 ddlCategory.DataSource = Categories;
@@ -43,7 +57,15 @@ namespace bmi.imis.MABanker.Careers.Careers
             var context = new CareersContext();            
                 IQueryable<Posting> rtn = context.Postings;
                 var dateAfterWhichListingsExpire = DateTime.Now.AddDays(-int.Parse(ConfigurationManager.AppSettings["DaysAfterWhichListingsExpire"]));
-                rtn = rtn.Where(p => p.PostDate >= dateAfterWhichListingsExpire);
+            if (IsStaffUser)
+            {
+                rtn = rtn.Where(p => p.PostDate >= dateAfterWhichListingsExpire || p.PostDate == null);
+            }
+            else
+            {
+                rtn = rtn.Where(p => p.PostDate >= dateAfterWhichListingsExpire && p.Approved == true);
+            }
+
                 if (ddlCategory.SelectedIndex != 0)
                 {
                     int category = int.Parse(ddlCategory.SelectedValue);

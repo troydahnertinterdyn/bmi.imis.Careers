@@ -13,7 +13,6 @@ namespace bmi.imis.MABanker.Careers.Models
         {
             Category = 0;
             State = string.Empty;
-            PostDate = DateTime.Now;
         }
         public Posting(string postingID)
         {

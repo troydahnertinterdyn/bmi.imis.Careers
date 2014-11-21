@@ -13,6 +13,24 @@ namespace bmi.imis.MABanker.Careers.Careers {
     public partial class CareerCategories {
         
         /// <summary>
+        /// lblAuthorizationError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblAuthorizationError;
+        
+        /// <summary>
+        /// pnlCategories control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlCategories;
+        
+        /// <summary>
         /// gvCareerCategories control.
         /// </summary>
         /// <remarks>
