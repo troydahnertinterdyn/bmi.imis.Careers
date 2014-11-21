@@ -6,9 +6,11 @@
 <script src="../Scripts/jquery.maskedinput-1.3.1.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
 
-
+<asp:Panel ID="pnlUnauthorized" runat="server"  Visible='<%# Request.QueryString["ResumeId"] != null && !CanViewResumes %>'>
+    You are not authorized to view Resumes
+</asp:Panel>
 <div id="Resume" >
-   <asp:FormView ID="fvResume" DefaultMode='<%# IsStaffUser || Request.QueryString["ResumeId"] == null ? FormViewMode.Edit : FormViewMode.ReadOnly %>' runat="server" ItemType="bmi.imis.MABanker.Careers.Models.Resume" SelectMethod="fvResume_GetItem" UpdateMethod="fvResume_UpdateItem" >
+   <asp:FormView ID="fvResume" Visible='<%# Request.QueryString["ResumeId"] == null || CanViewResumes %>' DefaultMode='<%#  IsStaffUser || Request.QueryString["ResumeId"] == null ? FormViewMode.Edit : FormViewMode.ReadOnly %>' runat="server" ItemType="bmi.imis.MABanker.Careers.Models.Resume" SelectMethod="fvResume_GetItem" UpdateMethod="fvResume_UpdateItem" >
       <EditItemTemplate>
          <span>
                          <div class="row">
@@ -18,6 +20,15 @@
 
                <div class="col-sm-6">
                   <asp:Label runat="server" ID="lblResumeID" Text="<%#BindItem.ResumeID %>" />
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-sm-6">
+                  <label>Approved</label>
+               </div>
+
+               <div class="col-sm-6">
+                  <asp:Label runat="server" ID="Label1" Text="<%#BindItem.Approved %>" />
                </div>
             </div>
             <div class="row">

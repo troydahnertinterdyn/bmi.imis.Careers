@@ -468,6 +468,10 @@
     <Compile Include="Migrations\201411100402358_AnnonymousPosting.Designer.cs">
       <DependentUpon>201411100402358_AnnonymousPosting.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201411211951163_approval.cs" />
+    <Compile Include="Migrations\201411211951163_approval.Designer.cs">
+      <DependentUpon>201411211951163_approval.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CareerCategories.cs" />
     <Compile Include="Models\CareersContext.cs" />
@@ -485,6 +489,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411100402358_AnnonymousPosting.resx">
       <DependentUpon>201411100402358_AnnonymousPosting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411211951163_approval.resx">
+      <DependentUpon>201411211951163_approval.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

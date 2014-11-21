@@ -17,7 +17,7 @@
         </asp:TemplateField>
         <asp:TemplateField HeaderText="Posting Date">
             <ItemTemplate>
-                <asp:Label ID="lblPostDate" runat="server" Text="<%# Item.PostDate %>"></asp:Label>
+                <asp:Label ID="lblPostDate" runat="server" Text="<%# Item.PostDate.HasValue ? Item.PostDate.Value.ToShortDateString() : string.Empty %>"></asp:Label>
             </ItemTemplate>
         </asp:TemplateField>
         <asp:TemplateField HeaderText="Title">
@@ -32,7 +32,7 @@
         </asp:TemplateField>
         <asp:TemplateField runat="server" >
             <ItemTemplate>
-                 <asp:LinkButton ID="lbtJobPosting" runat="server" Text='Edit' PostBackUrl='<%# PageRootPath + "JobPosting.aspx?PostingId=" + Item.JobID %>'></asp:LinkButton>
+                 <asp:LinkButton ID="lbtJobPosting" runat="server" Text='<%# IsStaffUser ? "Edit" : "View" %>' PostBackUrl='<%# PageRootPath + "JobPosting.aspx?PostingId=" + Item.JobID %>'></asp:LinkButton>
                     <asp:linkButton runat="server" ID="lbtDelete" Text="Delete" CommandName="Delete" Visible="<%# IsStaffUser %>"
 OnClientClick="if ( !confirm('Are you sure you want to delete this Posting?  This will not refund a credit.')) return false;"  />
             </ItemTemplate>

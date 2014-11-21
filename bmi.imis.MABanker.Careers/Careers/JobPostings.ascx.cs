@@ -75,11 +75,11 @@ namespace bmi.imis.MABanker.Careers.Careers
                 if (tbKeyword.Text != string.Empty)
                 {
                     //TODO:  Not efficient.  Unable to find faster method
-                    rtn = rtn.Where(p => p.Description.ToLower()==tbKeyword.Text.ToLower() || 
-                        p.Comments.ToLower() == tbKeyword.Text.ToLower() ||
-                        p.City.ToLower() == tbKeyword.Text.ToLower() ||
-                        p.Company.ToLower() == tbKeyword.Text.ToLower() ||
-                        p.Title.ToLower() == tbKeyword.Text.ToLower());
+                    rtn = rtn.Where(p => p.Description.Contains(tbKeyword.Text) ||
+                        p.Comments.Contains(tbKeyword.Text) ||
+                        p.City.Contains(tbKeyword.Text) ||
+                        p.Company.Contains(tbKeyword.Text) ||
+                        p.Title.Contains(tbKeyword.Text));
                        //.IndexOf(tbKeyword.Text, StringComparison.OrdinalIgnoreCase) != -1);
                 }
                 return rtn;

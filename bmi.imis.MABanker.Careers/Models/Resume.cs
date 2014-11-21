@@ -15,7 +15,6 @@ namespace bmi.imis.MABanker.Careers.Models
         }
         [Key]
         public int ResumeID { get; set; }
-        public bool PostAnnonymously { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Address { get; set; }
@@ -26,6 +25,7 @@ namespace bmi.imis.MABanker.Careers.Models
         public string Fax { get; set; }
         public string Email { get; set; }
         public DateTime? PostDate { get; set; }
+        public bool Approved { get; set; }
         public int Category { get; set; }
         [NotMapped]
         public string CategoryName
@@ -43,6 +43,8 @@ namespace bmi.imis.MABanker.Careers.Models
         }
         public string ResumeText { get; set; }
         public virtual  ResumeBinary ResumeBinary { get; set; }
+
+
 
     }
     public class ResumeBinary

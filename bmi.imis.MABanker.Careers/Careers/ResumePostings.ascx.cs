@@ -13,7 +13,10 @@ namespace bmi.imis.MABanker.Careers.Careers
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!Page.IsPostBack)
+            {
+                Page.DataBind();
+            }
         }
 
         // The return type can be changed to IEnumerable, however to support
@@ -29,7 +32,7 @@ namespace bmi.imis.MABanker.Careers.Careers
             var dateAfterWhichListingsExpire = DateTime.Now.AddDays(-int.Parse(ConfigurationManager.AppSettings["DaysAfterWhichListingsExpire"]));
 
                 rtn = rtn.Where(p => p.PostDate >= dateAfterWhichListingsExpire || p.PostDate == null);
-            
+                if (!IsStaffUser) rtn = rtn.Where(p => p.Approved == true);
 
             if (ddlCategory.SelectedIndex != 0)
             {

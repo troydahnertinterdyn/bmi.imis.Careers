@@ -128,7 +128,7 @@ namespace bmi.imis.MABanker.Careers.Careers
         public bool IsStaffUser {
             get
             {
-                if (bool.Parse(ConfigurationManager.AppSettings["DevelopmentMode"])) return true;
+                if (bool.Parse(ConfigurationManager.AppSettings["DevelopmentMode"])) return false;
                 return HasRole(new List<string>(){"sysadmin"});
             }
         }
@@ -137,7 +137,7 @@ namespace bmi.imis.MABanker.Careers.Careers
             get
             {
                 if (bool.Parse(ConfigurationManager.AppSettings["DevelopmentMode"])) return true;
-                var roles = new List<string>() { "IM", "ASSOC", "STAFF" };
+                var roles = new List<string>() { "IM", "ASSOC", "STAFF", "sysadmin" };
                 return HasRole(roles);
             }
         }
