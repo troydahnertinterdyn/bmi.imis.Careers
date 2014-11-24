@@ -37,8 +37,11 @@ namespace bmi.imis.MABanker.Careers.Careers
             using (var context = new CareersContext())
             {
                 var career = context.Categories.Where(c => c.Id == Id).Select(c => c).FirstOrDefault();
-                context.Categories.Remove(career);
-                context.SaveChanges();
+                if (career != null)
+                {
+                    context.Categories.Remove(career);
+                    context.SaveChanges();
+                }
             }
             gvCareerCategories.DataBind();
         }
@@ -84,7 +87,7 @@ namespace bmi.imis.MABanker.Careers.Careers
 
         // The id parameter should match the DataKeyNames value set on the control
         // or be decorated with a value provider attribute, e.g. [QueryString]int id
-        public bmi.imis.MABanker.Careers.Models.CareerCategory fvCareerCategory_GetItem(int id)
+        public bmi.imis.MABanker.Careers.Models.CareerCategory fvCareerCategory_GetItem()
         {
             return null;
         }

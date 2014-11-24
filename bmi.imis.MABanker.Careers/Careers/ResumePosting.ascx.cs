@@ -80,7 +80,7 @@ namespace bmi.imis.MABanker.Careers.Careers
                 {
                         resumeBinary.ResumeBytes = fileUploadResume.FileBytes;
                         resumeBinary.ContentType = fileUploadResume.PostedFile.ContentType;
-                        resumeBinary.FileName = fileUploadResume.PostedFile.FileName;
+                        resumeBinary.FileName = System.IO.Path.GetFileName(fileUploadResume.PostedFile.FileName);
                 }
                 if (resume.ResumeID == 0) context.Entry(resume).State = System.Data.Entity.EntityState.Added;
                 else context.Entry(retrievedResume).State = System.Data.Entity.EntityState.Modified;

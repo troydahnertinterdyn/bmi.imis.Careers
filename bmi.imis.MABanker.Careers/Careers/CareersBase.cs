@@ -128,7 +128,7 @@ namespace bmi.imis.MABanker.Careers.Careers
         public bool IsStaffUser {
             get
             {
-                if (bool.Parse(ConfigurationManager.AppSettings["DevelopmentMode"])) return false;
+                if (bool.Parse(ConfigurationManager.AppSettings["DevelopmentMode"])) return true;
                 return HasRole(new List<string>(){"sysadmin"});
             }
         }

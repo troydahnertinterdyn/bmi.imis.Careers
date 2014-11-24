@@ -11,7 +11,6 @@ namespace bmi.imis.MABanker.Careers.Models
     public class Resume
     {
         public Resume() {
-            PostDate = DateTime.Now.Date;
         }
         [Key]
         public int ResumeID { get; set; }

@@ -28,7 +28,15 @@
                </div>
 
                <div class="col-sm-6">
-                  <asp:Label runat="server" ID="Label1" Text="<%#BindItem.Approved %>" />
+                  <asp:CheckBox runat="server" ID="cbApproved" Checked="<%#BindItem.Approved %>" Enabled="<%# IsStaffUser %>"  />
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-sm-6">
+                  <label>Posted Date</label>
+               </div>
+               <div class="col-sm-6">
+                  <asp:TextBox runat="server" ID="txtPostDate" Text="<%#BindItem.PostDate %>" Enabled="<%# IsStaffUser %>"  />
                </div>
             </div>
             <div class="row">
@@ -138,6 +146,7 @@
                </div>
             </div>
          </span>
+          <asp:ValidationSummary ID="vsResumePostingValidationSummary" ShowModelStateErrors="true" runat="server" />
           <asp:LinkButton ID="lnkDownload" runat="server" Text="<%# Item.ResumeBinary != null ? Item.ResumeBinary.FileName : string.Empty %>" OnClick="lnkDownload_Click" CommandArgument='<%# Item.ResumeID %>' Visible="<%# Item.ResumeBinary != null && !string.IsNullOrEmpty( Item.ResumeBinary.FileName) ? true : false %>"/>
           <br/><asp:Button ID="btnFileDelete" runat="server" Text="Delete Resume File" OnClick="btnFileDelete_Click" CommandArgument='<%# Item.ResumeID %>'    Visible="<%# Item.ResumeBinary != null && !string.IsNullOrEmpty( Item.ResumeBinary.FileName ) ? true : false %>"/>
           <br /><asp:FileUpload ID="fuResume" runat="server" Visible="<%# Item.ResumeBinary == null ||  string.IsNullOrEmpty( Item.ResumeBinary.FileName) ? true : false %>" />
@@ -250,9 +259,19 @@
                    <asp:Label id="lbResume" CssClass="tinymce" runat="server" TextMode="MultiLine" text="<%#Item.ResumeText %>" />
                </div>
             </div>
+                         <div class="row">
+               <div class="col-sm-6">
+                  <label>
+                      Resume (download):
+                  </label>
+               </div>
+               <div class="col-sm-6">
+                   <asp:LinkButton ID="lnkDownload" runat="server" Text="<%# Item.ResumeBinary != null ? Item.ResumeBinary.FileName : string.Empty %>" OnClick="lnkDownload_Click" CommandArgument='<%# Item.ResumeID %>' Visible="<%# Item.ResumeBinary != null && !string.IsNullOrEmpty( Item.ResumeBinary.FileName) ? true : false %>"/>
+               </div>
+            </div>
          </span>
            
-<asp:LinkButton ID="lnkDownload" runat="server" Text="<%# Item.ResumeBinary != null ? Item.ResumeBinary.FileName : string.Empty %>" OnClick="lnkDownload_Click" CommandArgument='<%# Item.ResumeID %>' Visible="<%# Item.ResumeBinary != null && !string.IsNullOrEmpty( Item.ResumeBinary.FileName) ? true : false %>"/>
+
            <br /><asp:LinkButton ID="lnkEdit" runat="server" Text="Edit Resume" Visible="<%#IsStaffUser %>" OnClick="lnkEdit_Click"/>
 
        </ItemTemplate>
@@ -292,3 +311,19 @@
    }
 </style>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+<script type="text/javascript">
+    //Fills in posted date if it's not filled in when approved checkbox is checked.
+    jQuery(document).ready(function () {
+        if (<%= fvResume.FindControl("cbApproved") != null ? "true" : "false" %>)
+        {
+        var chkApproved  = '#<%= fvResume.FindControl("cbApproved") != null ? fvResume.FindControl("cbApproved").ClientID : string.Empty %>';
+        var tbPostedDate = '#<%=fvResume.FindControl("txtPostDate") != null ? fvResume.FindControl("txtPostDate") .ClientID : string.Empty %>';
+        var currentDate = '<%= DateTime.Now.ToShortDateString() %>';
+        jQuery(chkApproved).click(function() {
+            if (jQuery(chkApproved).attr('checked') && jQuery(tbPostedDate).val() == '') jQuery(tbPostedDate).val(currentDate);
+        });
+    }
+    });
+    
+    </script>
