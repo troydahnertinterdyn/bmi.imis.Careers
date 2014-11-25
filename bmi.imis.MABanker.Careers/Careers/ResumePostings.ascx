@@ -1,23 +1,52 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ResumePostings.ascx.cs" Inherits="bmi.imis.MABanker.Careers.Careers.ResumePostings" %>
+
 <asp:Panel ID="pnlUnathorized" runat="server" Visible="<%# !CanViewResumes %>" >
     You do not have permission to search Resumes
 </asp:Panel>
 <asp:Panel ID="pnlResumeSearch" runat="server" Visible="<%# CanViewResumes %>" >
-<label>Category</label><asp:DropDownList ID ="ddlCategory" DataValueField="Id" DataTextField="Name" runat="server" AutoPostBack="true" AppendDataBoundItems="true" >
-    <asp:ListItem Value="" Text="Select a category..." />
-                       </asp:DropDownList><br />
-<label>State</label><asp:DropDownList ID="ddlState" DataValueField="Code" DataTextField="Name" runat="server" AutoPostBack="true" AppendDataBoundItems="true">
-    <asp:ListItem Text="Select a state..." Value="" />
-                    </asp:DropDownList><br />
-<label>Keyword</label><asp:TextBox ID="tbKeyword" runat="server" /><br />
-<asp:Button ID="btnSearch" runat="server" OnClick="btnSearch_Click" Text="Search" />
-<asp:GridView ID="gvResumes" runat="server" ItemType="bmi.imis.MABanker.Careers.Models.Resume" DataKeyNames="ResumeID" AutoGenerateColumns="false" AllowSorting="true" SelectMethod="gvResumes_GetData" DeleteMethod="gvResumes_DeleteItem" Visible="false" >
+    <table>
+        <tr>
+            <td ><div class="PanelField Left"><label>Category</label></div></td>
+            <td><div class="PanelFieldValueBMI">
+                <asp:DropDownList ID ="ddlCategory" DataValueField="Id" DataTextField="Name" runat="server" AutoPostBack="true" AppendDataBoundItems="true" >
+                    <asp:ListItem Value="" Text="Select a category..." />
+                    </asp:DropDownList></div></td>
+        </tr>
+        <tr>
+            <td><div class="PanelField Left"><label>State</label></div></td>
+            <td><div class="PanelFieldValueBMI">
+                <asp:DropDownList ID="ddlState" DataValueField="Code" DataTextField="Name" runat="server" AutoPostBack="true" AppendDataBoundItems="true">
+                    <asp:ListItem Text="Select a state..." Value="" />
+                    </asp:DropDownList></div></td>
+        </tr>
+        <tr>
+            <td><div class="PanelField Left"><label>Keyword</label></div></td>
+            <td><div class="PanelFieldValueBMI">
+                <asp:TextBox ID="tbKeyword" runat="server" /></div></td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td><asp:Button ID="btnSearch" CssClass="PrimaryButton" runat="server" OnClick="btnSearch_Click" Text="Search" /></td>
+        </tr>
+    </table>
+<br />
+<br />
+
+
+<asp:GridView ID="gvResumes" runat="server" ItemType="bmi.imis.MABanker.Careers.Models.Resume" DataKeyNames="ResumeID" AutoGenerateColumns="false" AllowSorting="true" SelectMethod="gvResumes_GetData" DeleteMethod="gvResumes_DeleteItem" Visible="false" CellPadding="5" CellSpacing="5" >
     <Columns>
-        <asp:TemplateField HeaderText="ResumeID" >
-            <ItemTemplate>
-                <asp:Label ID="lblResumeID" text="<%# Item.ResumeID %>" runat="server" />
-            </ItemTemplate>
-        </asp:TemplateField>
+                <asp:TemplateField HeaderText="ResumeID" >
+                    
+                    <ItemTemplate>
+                        <asp:Label ID="lblResumeID" text="<%# Item.ResumeID %>" runat="server" />
+                    </ItemTemplate>
+                   
+                </asp:TemplateField>
+                
                 <asp:TemplateField HeaderText="State" >
             <ItemTemplate>
                 <asp:Label ID="lblState" Text="<%# Item.State %>" runat="server" />

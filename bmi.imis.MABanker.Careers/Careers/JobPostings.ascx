@@ -1,14 +1,39 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="JobPostings.ascx.cs" Inherits="bmi.imis.MABanker.Careers.Careers.JobPostings" %>
-<label>Category</label><asp:DropDownList ID ="ddlCategory" DataValueField="Id" DataTextField="Name" runat="server" AutoPostBack="true" AppendDataBoundItems="true" >
-    <asp:ListItem Value="" Text="Select a category..." />
-                       </asp:DropDownList>
+
+<table>
+        <tr>
+            <td ><div class="PanelField Left"><label>Category</label></div></td>
+            <td><div class="PanelFieldValueBMI">
+                <asp:DropDownList ID ="ddlCategory" DataValueField="Id" DataTextField="Name" runat="server" AutoPostBack="true" AppendDataBoundItems="true" >
+                    <asp:ListItem Value="" Text="Select a category..." />
+                       </asp:DropDownList></div></td>
+        </tr>
+        <tr>
+            <td><div class="PanelField Left"><label>State</label></div></td>
+            <td><div class="PanelFieldValueBMI">
+                <asp:DropDownList ID="ddlState" DataValueField="Code" DataTextField="Name" runat="server" AutoPostBack="true" AppendDataBoundItems="true">
+                    <asp:ListItem Text="Select a state..." Value="" />
+                    </asp:DropDownList></div></td>
+        </tr>
+        <tr>
+            <td><div class="PanelField Left"><label>Keyword</label></div></td>
+            <td><div class="PanelFieldValueBMI">
+                <asp:TextBox ID="tbKeyword" runat="server" /></div></td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td><asp:Button ID="btnSearch" CssClass="PrimaryButton" runat="server" OnClick="btnSearch_Click" Text="Search" /></td>
+        </tr>
+    </table>
 <br />
-<label>State</label><asp:DropDownList ID="ddlState" DataValueField="Code" DataTextField="Name" runat="server" AutoPostBack="true" AppendDataBoundItems="true">
-    <asp:ListItem Text="Select a state..." Value="" />
-                    </asp:DropDownList><br />
-<label>Keyword</label><asp:TextBox ID="tbKeyword" runat="server" /><br />
-<asp:Button ID="btnSearch" runat="server" OnClick="btnSearch_Click" Text="Search" />
-<asp:GridView  ID="gvJobPostings" runat="server" ItemType="bmi.imis.MABanker.Careers.Models.Posting" DataKeyNames="JobID" AutoGenerateColumns="false" AllowSorting="true" SelectMethod="gvJobPostings_GetData" DeleteMethod="gvJobPostings_DeleteItem" Visible="false" OnPreRender="gvJobPostings_PreRender" OnRowDataBound="gvJobPostings_RowDataBound" >
+<br />
+
+
+<asp:GridView  ID="gvJobPostings" runat="server" ItemType="bmi.imis.MABanker.Careers.Models.Posting" DataKeyNames="JobID" AutoGenerateColumns="false" AllowSorting="true" SelectMethod="gvJobPostings_GetData" DeleteMethod="gvJobPostings_DeleteItem" Visible="false" OnPreRender="gvJobPostings_PreRender" OnRowDataBound="gvJobPostings_RowDataBound" CellPadding="5" CellSpacing="5" >
     <Columns>
         <asp:TemplateField HeaderText="Approved">
             <ItemTemplate>
@@ -39,4 +64,4 @@ OnClientClick="if ( !confirm('Are you sure you want to delete this Posting?  Thi
         </asp:TemplateField>
     </Columns>
 </asp:GridView><%--  --%>
-<asp:Button ID="btnNew" runat="server" Text="New" PostBackUrl="JobPosting.aspx" />
+<asp:Button ID="btnNew" CssClass="PrimaryButton" runat="server" Text="New" PostBackUrl="JobPosting.aspx" />
