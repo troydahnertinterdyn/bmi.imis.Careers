@@ -10,7 +10,8 @@ namespace bmi.imis.MABanker.Careers.Models
     [Table("Resumes")]
     public class Resume
     {
-        public Resume() {
+        public Resume()
+        {
         }
         [Key]
         public int ResumeID { get; set; }
@@ -31,17 +32,27 @@ namespace bmi.imis.MABanker.Careers.Models
         {
             get
             {
-                if (Category == 0) return string.Empty;
-                using (var context = new CareersContext())
+                var contextCategories = HttpContext.Current.Session["Categories"];
+                if (contextCategories == null)
                 {
-                    var category = context.Categories.Where(c => c.Id == Category).FirstOrDefault();
-                    if (category == null) return string.Empty;
-                    return category.Name;
+                    using (var context = new CareersContext())
+                    {
+                        var categories = context.Categories.Select(c => c).ToDictionary(c => c.Id, c => c.Name);
+                        HttpContext.Current.Session["Categories"] = categories;
+                        contextCategories = HttpContext.Current.Session["Categories"];
+                    }
                 }
+                var castCategories = ((Dictionary<int, string>)contextCategories);
+                if (castCategories.ContainsKey(Category) && Category != 0)
+                {
+                    return castCategories[Category];
+                }
+                else return string.Empty;
             }
+
         }
         public string ResumeText { get; set; }
-        public virtual  ResumeBinary ResumeBinary { get; set; }
+        public virtual ResumeBinary ResumeBinary { get; set; }
 
 
 

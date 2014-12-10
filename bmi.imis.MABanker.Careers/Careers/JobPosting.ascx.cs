@@ -102,7 +102,7 @@ namespace bmi.imis.MABanker.Careers.Careers
                 else context.Entry(posting).State = System.Data.Entity.EntityState.Modified;
                 if (posting.Approved == false) SendUnapprovedNotification(posting);
                 context.SaveChanges();
-                if (decrementJobCredits) PostingCredits = PostingCredits--;
+                if (decrementJobCredits) PostingCredits = PostingCredits -1;
 
             }
             Response.Redirect(Request.Url.AbsolutePath + "?PostingId=" + posting.JobID.ToString());

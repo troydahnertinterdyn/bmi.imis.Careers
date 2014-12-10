@@ -52,10 +52,10 @@ namespace bmi.imis.MABanker.Careers.Careers
                     this.DataBind();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                lblErrorMessages.Text = "There was an error with the careers control: " + ex.Message;
             }
         }
         public ComboOrderData comboOrder { get; set; }

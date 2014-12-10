@@ -9,6 +9,9 @@
 <asp:Panel ID="pnlUnauthorized" runat="server"  Visible='<%# Request.QueryString["ResumeId"] != null && !CanViewResumes %>'>
     You are not authorized to view Resumes
 </asp:Panel>
+<asp:Panel ID="pnlConfirmation" runat="server" Visible="false">
+    Your resume has been saved
+</asp:Panel>
 <div id="Resume" >
    <asp:FormView ID="fvResume" Visible='<%# Request.QueryString["ResumeId"] == null || CanViewResumes %>' DefaultMode='<%#  IsStaffUser || Request.QueryString["ResumeId"] == null ? FormViewMode.Edit : FormViewMode.ReadOnly %>' runat="server" ItemType="bmi.imis.MABanker.Careers.Models.Resume" SelectMethod="fvResume_GetItem" UpdateMethod="fvResume_UpdateItem" >
       <EditItemTemplate>
@@ -82,6 +85,7 @@
                  <div class="col-sm-3">
                    <div class="PanelField Left">
                        <%--required field validation area--%>
+                       <asp:RequiredFieldValidator ID="rfFirstName" runat="server" ControlToValidate="tbFirstName" EnableClientScript="true" Text="Required" ValidationGroup="validation"/>
                    </div>
                 </div>
             </div>
@@ -99,6 +103,7 @@
                  <div class="col-sm-3">
                    <div class="PanelField Left">
                        <%--required field validation area--%>
+                       <asp:RequiredFieldValidator ID="rfLastName" runat="server" ControlToValidate="tbLastName" EnableClientScript="true" Text="Required" ValidationGroup="validation"/>
                    </div>
                 </div>
             </div>
@@ -116,6 +121,7 @@
                  <div class="col-sm-3">
                    <div class="PanelField Left">
                        <%--required field validation area--%>
+                       <asp:RequiredFieldValidator ID="rfAddress" runat="server" ControlToValidate="tbAddress" EnableClientScript="true" Text="Required" ValidationGroup="validation"/>
                    </div>
                 </div>
             </div>
@@ -133,6 +139,7 @@
                  <div class="col-sm-3">
                    <div class="PanelField Left">
                        <%--required field validation area--%>
+                       <asp:RequiredFieldValidator ID="rfCity" runat="server" ControlToValidate="tbCity" EnableClientScript="true" Text="Required" ValidationGroup="validation"/>
                    </div>
                 </div>
             </div>
@@ -153,6 +160,7 @@
                  <div class="col-sm-3">
                    <div class="PanelField Left">
                        <%--required field validation area--%>
+                       <asp:RequiredFieldValidator ID="rfState" runat="server" ControlToValidate="ddlState" EnableClientScript="true" Text="Required" ValidationGroup="validation"/>
                    </div>
                 </div>
             </div>
@@ -170,6 +178,7 @@
                  <div class="col-sm-3">
                    <div class="PanelField Left">
                        <%--required field validation area--%>
+                       <asp:RequiredFieldValidator ID="rfZip" runat="server" ControlToValidate="tbZip" EnableClientScript="true" Text="Required" ValidationGroup="validation"/>
                    </div>
                 </div>
             </div>
@@ -187,6 +196,7 @@
                  <div class="col-sm-3">
                    <div class="PanelField Left">
                        <%--required field validation area--%>
+                       <asp:RequiredFieldValidator ID="rfPhone" runat="server" ControlToValidate="tbTelephone" EnableClientScript="true" Text="Required" ValidationGroup="validation"/>
                    </div>
                 </div>
             </div>
@@ -221,6 +231,8 @@
                  <div class="col-sm-3">
                    <div class="PanelField Left">
                        <%--required field validation area--%>
+                       <asp:RequiredFieldValidator ID="rfEmail" runat="server" ControlToValidate="tbEmailAddress" EnableClientScript="true" Text="Required" ValidationGroup="validation"/>
+                       <asp:RegularExpressionValidator runat="server" ID="revEmail" ControlToValidate="tbEmailAddress" ValidationExpression="^((\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)*([,])*)*$">Invalid.</asp:RegularExpressionValidator>
                    </div>
                 </div>
             </div>
@@ -240,7 +252,10 @@
                </div>
                  <div class="col-sm-3">
                    <div class="PanelField Left">
-                       <%--required field validation area--%>
+                       <%--required field validation area--%>                       
+                       <asp:RangeValidator  ID="rvCategory" runat="server" ControlToValidate="ddCategory" MinimumValue="1" MaximumValue="<%# Int16.MaxValue %>" Type="Integer" EnableClientScript="true" Text="Required" ValidationGroup="validation"/>
+                       
+
                    </div>
                 </div>
             </div>
@@ -267,8 +282,8 @@
           <br/><asp:Button ID="btnFileDelete" CssClass="PrimaryButton" runat="server" Text="Delete Resume File" OnClick="btnFileDelete_Click" CommandArgument='<%# Item.ResumeID %>'    Visible="<%# Item.ResumeBinary != null && !string.IsNullOrEmpty( Item.ResumeBinary.FileName ) ? true : false %>"/>
           <br /><asp:FileUpload ID="fuResume" CssClass="PanelFieldValueBMI" runat="server" Visible="<%# Item.ResumeBinary == null ||  string.IsNullOrEmpty( Item.ResumeBinary.FileName) ? true : false %>" />
           <asp:CustomValidator ID="vafuResume" runat="server" Text="Only .pdf, .doc, .docx, and .rtf are allowed" ControlToValidate="fuResume" OnServerValidate="vafuResume_ServerValidate" />
-          <br /><asp:Button Text="Save Resume" ID="btnSave" CssClass="PrimaryButton" runat="server" CommandName="Update" />    
-          <br /><br /><asp:LinkButton ID="lbView" runat="server" Text="View Resume" OnClick="lbView_Click" OnClientClick="return CheckFormDirty()" Visible="<%# Item.ResumeID != 0 %>"/>
+          <br /><asp:Button Text="Save Resume" ID="btnSave" CssClass="PrimaryButton" runat="server" CommandName="Update" ValidationGroup="validation" />    
+          <br /><br /><asp:Button ID="btView" runat="server"  CssClass="PrimaryButton"  Text="View Resume" OnClick="btView_Click" OnClientClick="return CheckFormDirty()" Visible="<%# Item.ResumeID != 0 %>"/>
       </EditItemTemplate>
        <ItemTemplate>
          <span>
@@ -276,7 +291,7 @@
             <div class="row">
                <div class="col-sm-6">
                    <div class="PanelField Left">
-                  <label>First Name</label>
+                  <label>First Name:</label>
                        </div>
                </div>
                <div class="col-sm-6">
@@ -288,7 +303,7 @@
             <div class="row">
                <div class="col-sm-6">
                    <div class="PanelField Left">
-                  <label>Last Name</label>
+                  <label>Last Name:</label>
                        </div>
                </div>
                <div class="col-sm-6">
@@ -300,7 +315,7 @@
             <div class="row">
                <div class="col-sm-6">
                    <div class="PanelField Left">
-                  <label>Address</label>
+                  <label>Address:</label>
                        </div>
                </div>
                <div class="col-sm-6">
@@ -312,7 +327,7 @@
             <div class="row">
                <div class="col-sm-6">
              <div class="PanelField Left">
-                  <label>City</label>
+                  <label>City:</label>
                  </div>
                </div>
                <div class="col-sm-6">
@@ -324,7 +339,7 @@
             <div class="row">
                <div class="col-sm-6">
              <div class="PanelField Left">
-                  <label>State</label>
+                  <label>State:</label>
                  </div>
                </div>
                <div class="col-sm-6">
@@ -336,7 +351,7 @@
             <div class="row">
                <div class="col-sm-6">
              <div class="PanelField Left">
-                  <label>Zip</label>
+                  <label>Zip:</label>
                </div>
                    </div>
                <div class="col-sm-6">
@@ -348,7 +363,7 @@
             <div class="row">
                <div class="col-sm-6">
                    <div class="PanelField Left">
-                  <label>Telephone Number</label>
+                  <label>Telephone Number:</label>
                        </div>
                </div>
                <div class="col-sm-6">
@@ -360,7 +375,7 @@
             <div class="row">
                <div class="col-sm-6">
                    <div class="PanelField Left">
-                  <label>Fax</label>
+                  <label>Fax:</label>
                        </div>
                </div>
                <div class="col-sm-6">
@@ -372,7 +387,7 @@
             <div class="row">
                <div class="col-sm-6">
                    <div class="PanelField Left">
-                  <label>E-Mail Address</label>
+                  <label>E-Mail Address:</label>
                        </div>
                </div>
                <div class="col-sm-6">
@@ -385,7 +400,7 @@
             <div class="row">
                <div class="col-sm-6">
                    <div class="PanelField Left">
-                  <label>Category</label>
+                  <label>Category:</label>
                        </div>
                </div>
                <div class="col-sm-6">
@@ -397,7 +412,7 @@
             <div class="row">
                <div class="col-sm-6">
                    <div class="PanelField Left">
-                  <label>Resume (text):</label>
+                  <label>Resume (text)</label>
                        </div>
                </div>
                <div class="col-sm-6">
@@ -409,13 +424,25 @@
             <div class="row">
                <div class="col-sm-6">
                    <div class="PanelField Left">
-                  <label>Resume (download):</label>
+                  <label>Resume (PDF)</label>
                        </div>
                </div>
                <div class="col-sm-6">
                    <asp:LinkButton ID="lnkDownload" runat="server" Text="<%# Item.ResumeBinary != null ? Item.ResumeBinary.FileName : string.Empty %>" OnClick="lnkDownload_Click" CommandArgument='<%# Item.ResumeID %>' Visible="<%# Item.ResumeBinary != null && !string.IsNullOrEmpty( Item.ResumeBinary.FileName) ? true : false %>"/>
                </div>
             </div>
+
+             <div class="row">
+               <div class="col-sm-6">
+                   <div class="PanelField Left">
+                  <label>Post Date:</label>
+                       </div>
+               </div>
+               <div class="col-sm-6">
+                   <asp:Label id="Label1" CssClass="tinymce" runat="server" TextMode="MultiLine" text="<%#Item.PostDate != null ? ((DateTime)Item.PostDate).ToShortDateString() : string.Empty %>" />
+               </div>
+            </div>
+
          </span>
            <br /><asp:LinkButton ID="lnkEdit" runat="server" Text="Edit Resume" Visible="<%#IsStaffUser %>" OnClick="lnkEdit_Click"/>
 

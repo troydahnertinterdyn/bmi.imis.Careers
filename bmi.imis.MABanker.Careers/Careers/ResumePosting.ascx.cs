@@ -86,7 +86,12 @@ namespace bmi.imis.MABanker.Careers.Careers
                 else context.Entry(retrievedResume).State = System.Data.Entity.EntityState.Modified;
                 context.SaveChanges();
             }
-            Response.Redirect(Request.Url.AbsolutePath + "?ResumeId=" + resume.ResumeID.ToString());
+            if (IsStaffUser) Response.Redirect(Request.Url.AbsolutePath + "?ResumeId=" + resume.ResumeID.ToString());
+            else
+            {
+                fvResume.Visible = false;
+                pnlConfirmation.Visible = true;
+            }
         }
 
         protected void lnkDownload_Click(object sender, EventArgs e)
@@ -130,7 +135,7 @@ namespace bmi.imis.MABanker.Careers.Careers
             }
         }
 
-        protected void lbView_Click(object sender, EventArgs e)
+        protected void btView_Click(object sender, EventArgs e)
         {
             fvResume.ChangeMode(FormViewMode.ReadOnly);
         }

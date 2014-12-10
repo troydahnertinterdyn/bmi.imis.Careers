@@ -8,14 +8,14 @@
         <tr>
             <td ><div class="PanelField Left"><label>Category</label></div></td>
             <td><div class="PanelFieldValueBMI">
-                <asp:DropDownList ID ="ddlCategory" DataValueField="Id" DataTextField="Name" runat="server" AutoPostBack="true" AppendDataBoundItems="true" >
+                <asp:DropDownList ID ="ddlCategory" DataSource="<%# Categories %>" DataValueField="Id" DataTextField="Name" runat="server" AutoPostBack="true" AppendDataBoundItems="true" >
                     <asp:ListItem Value="" Text="Select a category..." />
                     </asp:DropDownList></div></td>
         </tr>
         <tr>
             <td><div class="PanelField Left"><label>State</label></div></td>
             <td><div class="PanelFieldValueBMI">
-                <asp:DropDownList ID="ddlState" DataValueField="Code" DataTextField="Name" runat="server" AutoPostBack="true" AppendDataBoundItems="true">
+                <asp:DropDownList ID="ddlState" DataSource="<%# States %>" DataValueField="Code" DataTextField="Name" runat="server" AutoPostBack="true" AppendDataBoundItems="true">
                     <asp:ListItem Text="Select a state..." Value="" />
                     </asp:DropDownList></div></td>
         </tr>
@@ -39,13 +39,27 @@
 
 <asp:GridView ID="gvResumes" runat="server" ItemType="bmi.imis.MABanker.Careers.Models.Resume" DataKeyNames="ResumeID" AutoGenerateColumns="false" AllowSorting="true" SelectMethod="gvResumes_GetData" DeleteMethod="gvResumes_DeleteItem" Visible="false" CellPadding="5" CellSpacing="5" >
     <Columns>
-                <asp:TemplateField HeaderText="ResumeID" >
-                    
+               <asp:TemplateField HeaderText="Approved" >                    
+                    <ItemTemplate>
+                        <asp:CheckBox ID="cbResumeID" Enabled="false" Checked="<%# Item.Approved %>" runat="server" Visible="<%# IsStaffUser %>" />
+                    </ItemTemplate>                   
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="ResumeID" >                    
                     <ItemTemplate>
                         <asp:Label ID="lblResumeID" text="<%# Item.ResumeID %>" runat="server" />
-                    </ItemTemplate>
-                   
+                    </ItemTemplate>                   
                 </asp:TemplateField>
+                <asp:TemplateField HeaderText="Category" >                    
+                    <ItemTemplate>
+                        <asp:Label ID="lblCategory" Enabled="false" Text="<%# Item.CategoryName %>" runat="server" />
+                    </ItemTemplate>                   
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Name" >                    
+                    <ItemTemplate>
+                        <asp:Label ID="lblName" Enabled="false" Text="<%# Item.FirstName + " " + Item.LastName %>" runat="server" />
+                    </ItemTemplate>                   
+                </asp:TemplateField>
+
                 
                 <asp:TemplateField HeaderText="State" >
             <ItemTemplate>

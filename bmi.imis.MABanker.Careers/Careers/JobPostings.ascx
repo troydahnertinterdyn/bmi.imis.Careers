@@ -4,14 +4,14 @@
         <tr>
             <td ><div class="PanelField Left"><label>Category</label></div></td>
             <td><div class="PanelFieldValueBMI">
-                <asp:DropDownList ID ="ddlCategory" DataValueField="Id" DataTextField="Name" runat="server" AutoPostBack="true" AppendDataBoundItems="true" >
+                <asp:DropDownList ID ="ddlCategory" DataSource="<%# Categories %>" DataValueField="Id" DataTextField="Name" runat="server" AutoPostBack="true" AppendDataBoundItems="true" >
                     <asp:ListItem Value="" Text="Select a category..." />
                        </asp:DropDownList></div></td>
         </tr>
         <tr>
             <td><div class="PanelField Left"><label>State</label></div></td>
             <td><div class="PanelFieldValueBMI">
-                <asp:DropDownList ID="ddlState" DataValueField="Code" DataTextField="Name" runat="server" AutoPostBack="true" AppendDataBoundItems="true">
+                <asp:DropDownList ID="ddlState" DataValueField="Code" DataSource="<%# States %>" DataTextField="Name" runat="server" AutoPostBack="true" AppendDataBoundItems="true">
                     <asp:ListItem Text="Select a state..." Value="" />
                     </asp:DropDownList></div></td>
         </tr>
@@ -64,4 +64,4 @@ OnClientClick="if ( !confirm('Are you sure you want to delete this Posting?  Thi
         </asp:TemplateField>
     </Columns>
 </asp:GridView><%--  --%>
-<asp:Button ID="btnNew" CssClass="PrimaryButton" runat="server" Text="New" PostBackUrl="JobPosting.aspx" />
+<asp:Button ID="btnNew" CssClass="PrimaryButton" runat="server" Text="New" PostBackUrl="JobPosting.aspx" Visible="<%# IsStaffUser %>" />

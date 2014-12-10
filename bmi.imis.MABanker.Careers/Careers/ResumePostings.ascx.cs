@@ -15,6 +15,10 @@ namespace bmi.imis.MABanker.Careers.Careers
         {
             if (!Page.IsPostBack)
             {
+                //ddlState.DataSource = States;
+                //ddlState.DataBind();
+                //ddlCategory.DataSource = Categories;
+                //ddlCategory.DataBind();
                 Page.DataBind();
             }
         }

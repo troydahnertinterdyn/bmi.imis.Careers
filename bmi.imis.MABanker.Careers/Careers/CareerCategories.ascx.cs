@@ -41,6 +41,7 @@ namespace bmi.imis.MABanker.Careers.Careers
                 {
                     context.Categories.Remove(career);
                     context.SaveChanges();
+                    HttpContext.Current.Session["Categories"] = null;
                 }
             }
             gvCareerCategories.DataBind();
@@ -53,6 +54,7 @@ namespace bmi.imis.MABanker.Careers.Careers
             {
                 context.Entry(category).State = System.Data.Entity.EntityState.Modified;
                 context.SaveChanges();
+                HttpContext.Current.Session["Categories"] = null;
             }
         }
 
@@ -62,6 +64,7 @@ namespace bmi.imis.MABanker.Careers.Careers
                 var context = new CareersContext();
                 context.Categories.Add(category);
                 context.SaveChanges();
+                HttpContext.Current.Session["Categories"] = null;
         }
 
         protected void fvCareerCategory_ItemInserted(object sender, FormViewInsertedEventArgs e)

@@ -36,7 +36,8 @@ namespace bmi.imis.MABanker.Careers.Careers
         {
             get
             {
-               return new EntityManager("Manager", "#37!eert");
+                var managerPassword = ConfigurationManager.AppSettings["ManagerPassword"];
+               return new EntityManager("Manager", managerPassword);
             }
         }
         public bool IsAuthenticated
@@ -94,7 +95,7 @@ namespace bmi.imis.MABanker.Careers.Careers
                 {
                     GenericEntityData data = (GenericEntityData)careerJobCredits.Result[0];
                     data["J_Credits"] = value;
-                    entityManager.Update(data);
+                    ValidateResultsData result = entityManager.Update(data);
                 }
             }
         }
@@ -128,7 +129,7 @@ namespace bmi.imis.MABanker.Careers.Careers
         public bool IsStaffUser {
             get
             {
-                if (bool.Parse(ConfigurationManager.AppSettings["DevelopmentMode"])) return true;
+                if (bool.Parse(ConfigurationManager.AppSettings["DevelopmentMode"])) return false;
                 return HasRole(new List<string>(){"sysadmin"});
             }
         }
