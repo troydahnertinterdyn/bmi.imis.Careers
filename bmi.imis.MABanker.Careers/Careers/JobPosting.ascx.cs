@@ -116,13 +116,13 @@ namespace bmi.imis.MABanker.Careers.Careers
                 {
                     //todo set up mail correctly
                     MailMessage mailMessage = new MailMessage();
-                    mailMessage.To.Add("troy.dahnert@interdynbmi.com");
-                    mailMessage.From = new MailAddress("TheCoolestGuyAtBMI@interdynbmi.com");
+                    mailMessage.To.Add(ConfigurationManager.AppSettings["CareersToEmail"]);
+                    mailMessage.From = new MailAddress(ConfigurationManager.AppSettings["CareersFromEmail"]);
                     mailMessage.Subject = "Job Posting " + posting.JobID + " Needs to be approved";
                     mailMessage.Body = "Job Posting " + posting.JobID + " Needs to be approved <br /><br /> " + HttpContext.Current.Request.Url.AbsoluteUri;
                     mailMessage.IsBodyHtml = true;
 
-                    SmtpClient smtpClient = new SmtpClient("mail.interdynbmi.com");
+                    SmtpClient smtpClient = new SmtpClient(ConfigurationManager.AppSettings["CareersSmtpClient"]);
                     smtpClient.Send(mailMessage);
                 }
                 catch (Exception ex)

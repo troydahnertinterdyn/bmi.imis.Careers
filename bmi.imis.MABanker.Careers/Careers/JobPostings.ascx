@@ -4,7 +4,7 @@
         <tr>
             <td ><div class="PanelField Left"><label>Category</label></div></td>
             <td><div class="PanelFieldValueBMI">
-                <asp:DropDownList ID ="ddlCategory" DataSource="<%# Categories %>" DataValueField="Id" DataTextField="Name" runat="server" AutoPostBack="true" AppendDataBoundItems="true" >
+                <asp:DropDownList ID ="ddlCategory" DataValueField="Id" DataTextField="Name" runat="server" AutoPostBack="true" AppendDataBoundItems="true" >
                     <asp:ListItem Value="" Text="Select a category..." />
                        </asp:DropDownList></div></td>
         </tr>

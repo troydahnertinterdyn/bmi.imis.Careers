@@ -56,7 +56,7 @@
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="Name" >                    
                     <ItemTemplate>
-                        <asp:Label ID="lblName" Enabled="false" Text="<%# Item.FirstName + " " + Item.LastName %>" runat="server" />
+                        <asp:Label ID="lblName" Enabled="false" Text='<%# Item.FirstName + " " + Item.LastName %>' runat="server" />
                     </ItemTemplate>                   
                 </asp:TemplateField>
 
