@@ -26,8 +26,6 @@ namespace bmi.imis.MABanker.Careers.Careers
         public int? PostingId { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
-
-
             if (!Page.IsPostBack)
             {
                 int tempPostingId;
@@ -59,6 +57,12 @@ namespace bmi.imis.MABanker.Careers.Careers
         }
         public Posting GetPosting([QueryString("PostingId")]int? postingId)
         {
+            if (!(bool)(Session["PersistToDatabase"] ?? true))
+            {                
+                fvJobPosting.ChangeMode(FormViewMode.ReadOnly);
+                Session["PersistToDatabase"] = true;
+                return (Posting)Session["Posting"];
+            }
             Posting rtn;
             if (postingId == null) return new Posting();
                 using (var context = new CareersContext())
@@ -85,27 +89,34 @@ namespace bmi.imis.MABanker.Careers.Careers
 
         public void fvJobPosting_UpdateItem(Posting posting)
         {
-            using (var context = new CareersContext())
+            if (!(bool)(Session["PersistToDatabase"] ?? true))
             {
-                if (posting.JobID == 0 && !IsStaffUser && PostingCredits <= 0) Response.Redirect(Request.Url.AbsoluteUri);
-                bool decrementJobCredits = false;
-                var postDateString = string.Empty;
-                DateTime postDate;
-                var postDateTextbox = (TextBox)fvJobPosting.FindControl("txtPostDate");
-                if (postDateTextbox.Text != null && DateTime.TryParse(postDateTextbox.Text, out postDate)) posting.PostDate = postDate;
-                else posting.PostDate = null;
-                if (posting.JobID == 0 )
-                {
-                    context.Entry(posting).State = System.Data.Entity.EntityState.Added;
-                    if (!IsStaffUser) decrementJobCredits = true;
-                }
-                else context.Entry(posting).State = System.Data.Entity.EntityState.Modified;
-                if (posting.Approved == false) SendUnapprovedNotification(posting);
-                context.SaveChanges();
-                if (decrementJobCredits) PostingCredits = PostingCredits -1;
-
+                Session["Posting"] = posting;
             }
-            Response.Redirect(Request.Url.AbsolutePath + "?PostingId=" + posting.JobID.ToString());
+            else
+            {
+                using (var context = new CareersContext())
+                {
+                    if (posting.JobID == 0 && !IsStaffUser && PostingCredits <= 0) Response.Redirect(Request.Url.AbsoluteUri);
+                    bool decrementJobCredits = false;
+                    var postDateString = string.Empty;
+                    DateTime postDate;
+                    var postDateTextbox = (TextBox)fvJobPosting.FindControl("txtPostDate");
+                    if (postDateTextbox.Text != null && DateTime.TryParse(postDateTextbox.Text, out postDate)) posting.PostDate = postDate;
+                    else posting.PostDate = null;
+                    if (posting.JobID == 0)
+                    {
+                        context.Entry(posting).State = System.Data.Entity.EntityState.Added;
+                        if (!IsStaffUser) decrementJobCredits = true;
+                    }
+                    else context.Entry(posting).State = System.Data.Entity.EntityState.Modified;
+                    if (posting.Approved == false) SendUnapprovedNotification(posting);
+                    context.SaveChanges();
+                    if (decrementJobCredits) PostingCredits = PostingCredits - 1;
+
+                }
+                Response.Redirect(Request.Url.AbsolutePath + "?PostingId=" + posting.JobID.ToString());
+            }
         }
 
         private void SendUnapprovedNotification(Posting posting)
@@ -134,11 +145,18 @@ namespace bmi.imis.MABanker.Careers.Careers
 
         protected void btnView_Click(object sender, EventArgs e)
         {
-            fvJobPosting.ChangeMode(FormViewMode.ReadOnly);
+
+            //Posting test = new Posting();
+            //var test2 = TryUpdateModel<Posting>(test, new FormValueProvider(Page.ModelBindingExecutionContext));
+            ////test = (Posting)fvJobPosting.DataItem;
+            Session["PersistToDatabase"] = false;
+            //fvJobPosting.ChangeMode(FormViewMode.ReadOnly);
+            
         }
             
         protected void btnEdit_Click(object sender, EventArgs e)
         {
+            Session["UpdateSender"] = sender.ToString();
             fvJobPosting.ChangeMode(FormViewMode.Edit);
         }
     }
