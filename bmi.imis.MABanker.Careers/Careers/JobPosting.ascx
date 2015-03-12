@@ -391,7 +391,7 @@
             </div>
 			
             <asp:Button Text="Submit" ID="btnSave" CssClass="PrimaryButton" ValidationGroup="validation" CausesValidation="true" runat="server" CommandName="Update" />    
-			<asp:Button Text="View" ID ="btnView" CssClass="PrimaryButton" runat="server" Visible="<%# fvJobPosting.CurrentMode == FormViewMode.Edit %>" OnClick="btnView_Click" CommandName="Update" />
+			<asp:Button Text="View" ID ="btnView" CssClass="PrimaryButton" ValidationGroup="validation" runat="server" Visible="<%# fvJobPosting.CurrentMode == FormViewMode.Edit %>" OnClick="btnView_Click" CommandName="Update" />
 			<%--</span>--%>
         </asp:Panel>
 	</EditItemTemplate>
@@ -565,8 +565,7 @@
                 <div class="PanelFieldValueBMI" ><asp:Label ID="lblPosted" runat="server" Text="<%# Item.PostDate != null ? ((DateTime)Item.PostDate).ToShortDateString() : string.Empty %>"></asp:Label></div>
             </div>            
         </div>
-        
-		<asp:Button ID="btnEdit" CssClass="PrimaryButton" Text="Edit" runat="server" CausesValidation="false" OnClick="btnEdit_Click" Visible="<%# IsStaffUser || Request.QueryString["PostingId"] == null %>"/>
+		<asp:Button ID="btnEdit" CssClass="PrimaryButton" Text="Edit" runat="server" CausesValidation="false" OnClick="btnEdit_Click" Visible='<%# IsStaffUser || Request.QueryString["PostingId"] == null %>'/>
 	</ItemTemplate>
 </asp:FormView>
 	</div>
