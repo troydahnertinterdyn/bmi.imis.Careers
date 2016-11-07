@@ -7,7 +7,7 @@
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
 <div id="Posting" >
 
-<asp:FormView ID="fvJobPosting" CssClass="" runat="server" DefaultMode='<%# (IsStaffUser) ||Request.QueryString["PostingId"] == null ? FormViewMode.Edit : FormViewMode.ReadOnly %>'  ItemType="bmi.imis.MABanker.Careers.Models.Posting"  SelectMethod="GetPosting" UpdateMethod="fvJobPosting_UpdateItem" >
+<asp:FormView ID="fvJobPosting" Width="100%"  CssClass="" runat="server" DataKeyNames="JobID" DefaultMode='<%# (IsStaffUser) ||Request.QueryString["PostingId"] == null ? FormViewMode.Edit : FormViewMode.ReadOnly %>'  ItemType="bmi.imis.MABanker.Careers.Models.Posting"  SelectMethod="GetPosting" UpdateMethod="fvJobPosting_UpdateItem" >
 
 	<EditItemTemplate>
            <asp:ValidationSummary ID="vsJobPosting" runat="server" />
@@ -166,7 +166,7 @@
                             </div>
                         </div>
                          <div class="col-sm-3">
-                           <div class="PanelField Left">
+                           <div class="PanelField Left">                               
                                <%--required field validation area--%>
                                <asp:RequiredFieldValidator ID="rfEmail" runat="server" ControlToValidate="txtEmail" EnableClientScript="true" Text="Required"  ValidationGroup="validation"/>
                                <asp:RegularExpressionValidator runat="server" ID="revEmail" ControlToValidate="txtEmail" ValidationExpression="^((\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)*([,])*)*$">Invalid.</asp:RegularExpressionValidator>
@@ -390,8 +390,8 @@
                 </div>
             </div>
 			
-            <asp:Button Text="Save" ID="btnSave" CssClass="PrimaryButton" ValidationGroup="validation" CausesValidation="true" runat="server" CommandName="Update" />    
-			<asp:Button Text="View" ID ="btnView" CssClass="PrimaryButton" runat="server" Visible="<%# fvJobPosting.CurrentMode == FormViewMode.Edit %>" OnClick="btnView_Click" OnClientClick="return CheckFormDirty()" />
+            <asp:Button Text="Submit" ID="btnSave" CssClass="PrimaryButton" ValidationGroup="validation" CausesValidation="true" runat="server" CommandName="Update" />    
+			<asp:Button Text="View" ID ="btnView" CssClass="PrimaryButton" ValidationGroup="validation" runat="server" Visible="<%# fvJobPosting.CurrentMode == FormViewMode.Edit %>" OnClick="btnView_Click" CommandName="Update" />
 			<%--</span>--%>
         </asp:Panel>
 	</EditItemTemplate>
@@ -564,8 +564,7 @@
                 <div class="PanelFieldValueBMI" ><asp:Label ID="lblPosted" runat="server" Text="<%# Item.PostDate != null ? ((DateTime)Item.PostDate).ToShortDateString() : string.Empty %>"></asp:Label></div>
             </div>            
         </div>
-        
-		<asp:Button ID="btnEdit" CssClass="PrimaryButton" Text="Edit" runat="server" CausesValidation="false" OnClick="btnEdit_Click" Visible="<%# IsStaffUser  %>"/>
+		<asp:Button ID="btnEdit" CssClass="PrimaryButton" Text="Edit" runat="server" CausesValidation="false" OnClick="btnEdit_Click" Visible='<%# IsStaffUser || Request.QueryString["PostingId"] == null %>'/>
 	</ItemTemplate>
 </asp:FormView>
 	</div>

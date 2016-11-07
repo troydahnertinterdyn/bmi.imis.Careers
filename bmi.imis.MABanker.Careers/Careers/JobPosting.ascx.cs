@@ -26,8 +26,6 @@ namespace bmi.imis.MABanker.Careers.Careers
         public int? PostingId { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
-
-
             if (!Page.IsPostBack)
             {
                 int tempPostingId;
@@ -60,6 +58,19 @@ namespace bmi.imis.MABanker.Careers.Careers
         public Posting GetPosting([QueryString("PostingId")]int? postingId)
         {
             Posting rtn;
+            if ( ( (bool)(Session["ChangeToEditMode"] ?? false) || (bool)(Session["ChangeToViewMode"] ?? false)))
+            {
+                if ((bool)(Session["ChangeToViewMode"] ?? false) )
+                {
+                    fvJobPosting.ChangeMode(FormViewMode.ReadOnly);
+                    Session["ChangeToViewMode"] = false;
+                }
+                if ((bool)(Session["ChangeToEditMode"] ?? false)) Session["ChangeToEditMode"] = false;
+
+                rtn = (Posting)Session["Posting"];
+                
+                return rtn;
+            }
             if (postingId == null) return new Posting();
                 using (var context = new CareersContext())
                 {
@@ -85,6 +96,19 @@ namespace bmi.imis.MABanker.Careers.Careers
 
         public void fvJobPosting_UpdateItem(Posting posting)
         {
+            if (((bool)(Session["ChangeToEditMode"] ?? false) || (bool)(Session["ChangeToViewMode"] ?? false)))
+            {
+                Session["Posting"] = posting;
+            }
+            else
+            {
+                UpdatePosting(posting);
+
+            }
+        }
+
+        private void UpdatePosting(Posting posting)
+        {
             using (var context = new CareersContext())
             {
                 if (posting.JobID == 0 && !IsStaffUser && PostingCredits <= 0) Response.Redirect(Request.Url.AbsoluteUri);
@@ -94,7 +118,7 @@ namespace bmi.imis.MABanker.Careers.Careers
                 var postDateTextbox = (TextBox)fvJobPosting.FindControl("txtPostDate");
                 if (postDateTextbox.Text != null && DateTime.TryParse(postDateTextbox.Text, out postDate)) posting.PostDate = postDate;
                 else posting.PostDate = null;
-                if (posting.JobID == 0 )
+                if (posting.JobID == 0)
                 {
                     context.Entry(posting).State = System.Data.Entity.EntityState.Added;
                     if (!IsStaffUser) decrementJobCredits = true;
@@ -102,7 +126,7 @@ namespace bmi.imis.MABanker.Careers.Careers
                 else context.Entry(posting).State = System.Data.Entity.EntityState.Modified;
                 if (posting.Approved == false) SendUnapprovedNotification(posting);
                 context.SaveChanges();
-                if (decrementJobCredits) PostingCredits = PostingCredits -1;
+                if (decrementJobCredits) PostingCredits = PostingCredits - 1;
 
             }
             Response.Redirect(Request.Url.AbsolutePath + "?PostingId=" + posting.JobID.ToString());
@@ -134,11 +158,19 @@ namespace bmi.imis.MABanker.Careers.Careers
 
         protected void btnView_Click(object sender, EventArgs e)
         {
-            fvJobPosting.ChangeMode(FormViewMode.ReadOnly);
+
+            //Posting test = new Posting();
+            //var test2 = TryUpdateModel<Posting>(test, new FormValueProvider(Page.ModelBindingExecutionContext));
+            ////test = (Posting)fvJobPosting.DataItem;
+            Session["ChangeToViewMode"] = true;
+            //fvJobPosting.ChangeMode(FormViewMode.ReadOnly);
+            
         }
             
         protected void btnEdit_Click(object sender, EventArgs e)
         {
+            Session["UpdateSender"] = sender.ToString();
+            Session["ChangeToEditMode"] = true;
             fvJobPosting.ChangeMode(FormViewMode.Edit);
         }
     }
