@@ -525,7 +525,6 @@
             </div>
             <div class="col-sm-8">
                 <div class="PanelFieldValueBMI" >                    
-                    <asp:Label runat="server" Visible='<%# Item.AnnonymousPost %>'>Test</asp:Label>
                     <asp:label ID="lblContactInformation" runat="server" Text='<%#Item.ContactInformation %>' Visible='<%# !Item.AnnonymousPost %>' />
 
                     <asp:Panel ID="pnlAnnonymousContactInformation" runat="server" Visible='<%# Item.AnnonymousPost %>'>
